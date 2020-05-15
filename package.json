@@ -1,0 +1,19 @@
+{
+  "name": "@stackup/validate",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "author": "Ray Zane",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "ts-jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.2",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.0.0",
+    "typescript": "^3.9.2"
+  }
+}
