@@ -1,4 +1,4 @@
-import { assert, refute, Predicate } from "../src";
+import { assert, refute, Predicate, all } from "../src";
 
 const isTrue: Predicate = (value) => value;
 
@@ -39,5 +39,28 @@ describe("refute", () => {
     const assertion = refute(isTrue, "blah");
     const error = await assertion(true);
     expect(error).toEqual("blah");
+  });
+});
+
+describe("all", () => {
+  test("when all of the assertions passes", async () => {
+    const assertion = all([assert(isTrue)]);
+    const error = await assertion(true);
+    expect(error).toBeUndefined();
+  });
+
+  test("when one of the assertions fails", async () => {
+    const assertion = all([assert(isTrue)]);
+    const error = await assertion(false);
+    expect(error).toEqual("is invalid");
+  });
+
+  test("does not run the second assertion if the first fails", async () => {
+    const first = jest.fn(() => Promise.resolve("boom"));
+    const second = jest.fn();
+    const assertion = all([first, second]);
+    const error = await assertion(true);
+    expect(error).toEqual("boom");
+    expect(second).not.toHaveBeenCalled();
   });
 });
