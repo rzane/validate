@@ -1,10 +1,4 @@
-import {
-  isUndefined,
-  isNull,
-  isNil,
-  isString,
-  isBlank,
-} from "../src/predicates";
+import { isUndefined, isNull, isNil, isString, isBlank } from "../src";
 
 test("isUndefined", () => {
   expect(isUndefined("")).toBe(false);
