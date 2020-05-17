@@ -1,27 +1,43 @@
 import { assert, refute, Predicate } from "../src";
 
-const predicate: Predicate = () => true;
+const isTrue: Predicate = (value) => value;
 
-test("assert", () => {
-  const assertion = assert(predicate);
-  expect(assertion.message).toEqual("is invalid");
-  expect(assertion.predicate(1)).toEqual(true);
+describe("assert", () => {
+  test("when the predicate passes", async () => {
+    const assertion = assert(isTrue);
+    const error = await assertion(true);
+    expect(error).toBeUndefined();
+  });
+
+  test("when the predicate fails", async () => {
+    const assertion = assert(isTrue);
+    const error = await assertion(false);
+    expect(error).toEqual("is invalid");
+  });
+
+  test("when the predicate fails with a custom message", async () => {
+    const assertion = assert(isTrue, "blah");
+    const error = await assertion(false);
+    expect(error).toEqual("blah");
+  });
 });
 
-test("assert with a custom message", () => {
-  const assertion = assert(predicate, "bad");
-  expect(assertion.message).toEqual("bad");
-  expect(assertion.predicate(1)).toEqual(true);
-});
+describe("refute", () => {
+  test("when the predicate passes", async () => {
+    const assertion = refute(isTrue);
+    const error = await assertion(false);
+    expect(error).toBeUndefined();
+  });
 
-test("refute", () => {
-  const assertion = refute(predicate);
-  expect(assertion.message).toEqual("is invalid");
-  expect(assertion.predicate(1)).toEqual(false);
-});
+  test("when the predicate fails", async () => {
+    const assertion = refute(isTrue);
+    const error = await assertion(true);
+    expect(error).toEqual("is invalid");
+  });
 
-test("refute with a custom message", () => {
-  const assertion = refute(predicate, "bad");
-  expect(assertion.message).toEqual("bad");
-  expect(assertion.predicate(1)).toEqual(false);
+  test("when the predicate fails with a custom message", async () => {
+    const assertion = refute(isTrue, "blah");
+    const error = await assertion(true);
+    expect(error).toEqual("blah");
+  });
 });
