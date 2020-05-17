@@ -12,5 +12,6 @@ test("exports", () => {
     "isString",
     "isUndefined",
     "refute",
+    "shape",
   ]);
 });
