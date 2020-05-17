@@ -1,4 +1,4 @@
-import { assert, refute, Predicate, all } from "../src";
+import { assert, refute, Predicate, all, each } from "../src";
 
 const isTrue: Predicate = (value) => value;
 
@@ -62,5 +62,19 @@ describe("all", () => {
     const error = await assertion(true);
     expect(error).toEqual("boom");
     expect(second).not.toHaveBeenCalled();
+  });
+});
+
+describe("each", () => {
+  test("when all of the assertions pass", async () => {
+    const assertion = each(assert(isTrue));
+    const errors = await assertion([true, true]);
+    expect(errors).toEqual([undefined, undefined]);
+  });
+
+  test("when some of the assertions fail", async () => {
+    const assertion = each(assert(isTrue));
+    const errors = await assertion([true, false]);
+    expect(errors).toEqual([undefined, "is invalid"]);
   });
 });
