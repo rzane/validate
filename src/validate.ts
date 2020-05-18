@@ -4,7 +4,7 @@ import { each } from "./each";
 import { refute } from "./refute";
 import { required } from "./required";
 import { schema } from "./schema";
-import { Validate, Result, ValidationError } from "./types";
+import { Validate, Result, Problem } from "./types";
 
 type MaybeAsync<T> = T | Promise<T>;
 type Operation = (input: any) => MaybeAsync<Result<any>>;
@@ -16,7 +16,7 @@ const create = <T>(operations: Operation[]): Validate<T> => {
 
   const validate = async (input: unknown): Promise<Result<T>> => {
     let value: any = input;
-    const errors: ValidationError[] = [];
+    const errors: Problem[] = [];
 
     for (const operation of operations) {
       const result = await operation(value);

@@ -1,13 +1,13 @@
-import { Validate, ValidationError } from "./types";
+import { Validate, Problem, Result } from "./types";
 
 export const each = <T>(validator: Validate<T>) => {
-  return async (input: any) => {
+  return async (input: unknown): Promise<Result<T[]>> => {
     if (!Array.isArray(input)) {
-      return { value: input };
+      return { value: input as any };
     }
 
     const value: T[] = [];
-    const errors: ValidationError[] = [];
+    const errors: Problem[] = [];
 
     const promises = input.map(async (value, i) => {
       const field = await validator.validate(value);

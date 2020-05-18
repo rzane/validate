@@ -1,10 +1,10 @@
-import { ValidationSchema, ValidationError } from "./types";
+import { Schema, Problem } from "./types";
 
 const isObject = (value: unknown): boolean => {
   return value !== null && typeof value === "object";
 };
 
-export const schema = <T>(validators: ValidationSchema<T>) => {
+export const schema = <T>(validators: Schema<T>) => {
   const keys = Object.keys(validators);
 
   return async (input: any) => {
@@ -13,7 +13,7 @@ export const schema = <T>(validators: ValidationSchema<T>) => {
     }
 
     const values: any = {};
-    const errors: ValidationError[] = [];
+    const errors: Problem[] = [];
 
     const promises = keys.map(async key => {
       const rawValue = input[key];

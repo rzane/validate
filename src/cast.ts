@@ -1,11 +1,7 @@
-import { Cast } from "./types";
+import { Cast, Result } from "./types";
 
-export const cast = <T, R>(fn: Cast<T, R>, defaultValue?: R) => {
-  return async (value: T) => {
-    if (typeof value === "undefined") {
-      return { value: defaultValue };
-    } else {
-      return { value: await fn(value) };
-    }
+export const cast = <T, R>(fn: Cast<T, R>) => {
+  return async (value: T): Promise<Result<R>> => {
+    return { value: await fn(value) };
   };
 };
