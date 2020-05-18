@@ -1,5 +1,3 @@
-export type Predicate = (value: any) => boolean | Promise<boolean>;
-
 export const isUndefined = (value: unknown): value is undefined => {
   return typeof value === "undefined";
 };
@@ -18,8 +16,4 @@ export const isString = (value: unknown): value is string => {
 
 export const isBlank = (value: string): boolean => {
   return value.trim() == "";
-};
-
-export const isPromise = (value: unknown): value is Promise<any> => {
-  return value instanceof Promise;
 };
