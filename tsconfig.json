@@ -1,5 +1,4 @@
 {
-  "include": ["src", "test"],
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -8,9 +7,6 @@
 
     "strict": true,
     "incremental": true,
-
-    "jsx": "react",
-    "lib": ["dom", "esnext"],
 
     "sourceMap": true,
     "declaration": true,

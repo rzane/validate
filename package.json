@@ -5,8 +5,12 @@
   "author": "Ray Zane",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prepack": "microbundle"
   },
+  "files": [
+    "lib/**/*"
+  ],
   "jest": {
     "preset": "ts-jest"
   },
@@ -17,6 +21,7 @@
   "devDependencies": {
     "@types/jest": "^25.2.2",
     "jest": "^26.0.1",
+    "microbundle": "^0.12.0-next.9",
     "prettier": "^2.0.5",
     "ts-jest": "^26.0.0",
     "typescript": "^3.9.2"
