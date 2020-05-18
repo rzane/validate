@@ -10,9 +10,14 @@
   "jest": {
     "preset": "ts-jest"
   },
+  "prettier": {
+    "arrowParens": "avoid",
+    "trailingComma": "none"
+  },
   "devDependencies": {
     "@types/jest": "^25.2.2",
     "jest": "^26.0.1",
+    "prettier": "^2.0.5",
     "ts-jest": "^26.0.0",
     "typescript": "^3.9.2"
   }
