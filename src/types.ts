@@ -19,19 +19,6 @@ export interface Validator<T> {
   validate(input: unknown): Promise<ValidationResult<T>>;
 }
 
-export type Schema<T> = {
+export type ValidationSchema<T> = {
   [K in keyof T]: Validator<T[K]>;
-};
-
-/**
- * These are just mocks to test out the types
- */
-export const { cast, assert, refute } = ({} as any) as Validator<unknown>;
-
-export const each = <T>(validator: Validator<T>): Validator<T[]> => {
-  return {} as any;
-};
-
-export const schema = <T>(schema: Schema<T>): Validator<T> => {
-  return {} as any;
 };
