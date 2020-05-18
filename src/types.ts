@@ -3,7 +3,7 @@ export type Predicate<T> = (value: T) => boolean | Promise<boolean>;
 
 export interface ValidationError {
   message: string;
-  path: string[];
+  path: Array<string | number>;
 }
 
 export interface ValidationResult<T> {
@@ -12,10 +12,10 @@ export interface ValidationResult<T> {
 }
 
 export interface Validator<T> {
-  cast<R>(fn: Cast<T, R>): Validator<R>;
-  required(): Validator<NonNullable<T>>;
-  assert(fn: Predicate<NonNullable<T>>, message?: string): Validator<T>;
-  refute(fn: Predicate<NonNullable<T>>, message?: string): Validator<T>;
+  cast<R>(fn: Cast<T, R>, defaultValue?: R): Validator<R>;
+  assert(fn: Predicate<T>, message?: string): Validator<T>;
+  refute(fn: Predicate<T>, message?: string): Validator<T>;
+  required(message?: string): Validator<T>;
   validate(input: unknown): Promise<ValidationResult<T>>;
 }
 

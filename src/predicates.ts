@@ -14,6 +14,6 @@ export const isString = (value: unknown): value is string => {
   return typeof value === "string";
 };
 
-export const isBlank = (value: string): boolean => {
-  return value.trim() == "";
+export const isBlank = (value: unknown): boolean => {
+  return isNil(value) || (isString(value) && value.trim() === "");
 };
