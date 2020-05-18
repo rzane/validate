@@ -6,19 +6,23 @@ export interface ValidationError {
   path: Array<string | number>;
 }
 
-export interface ValidationResult<T> {
+export interface Result<T> {
   value: T;
   errors?: ValidationError[];
 }
 
-export interface Validator<T> {
-  cast<R>(fn: Cast<T, R>, defaultValue?: R): Validator<R>;
-  assert(fn: Predicate<T>, message?: string): Validator<T>;
-  refute(fn: Predicate<T>, message?: string): Validator<T>;
-  required(message?: string): Validator<T>;
-  validate(input: unknown): Promise<ValidationResult<T>>;
-}
-
 export type ValidationSchema<T> = {
-  [K in keyof T]: Validator<T[K]>;
+  [K in keyof T]: Validate<T[K]>;
+} & {
+  [key: string]: Validate<unknown>;
 };
+
+export interface Validate<T> {
+  cast<R>(fn: Cast<T, R>, defaultValue?: R): Validate<R>;
+  assert(fn: Predicate<T>, message?: string): Validate<T>;
+  refute(fn: Predicate<T>, message?: string): Validate<T>;
+  required(message?: string): Validate<T>;
+  schema<R>(fields: ValidationSchema<R>): Validate<R>;
+  each<R>(validator: Validate<R>): Validate<R[]>;
+  validate(input: unknown): Promise<Result<T>>;
+}
