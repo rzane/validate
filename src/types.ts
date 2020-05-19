@@ -18,6 +18,6 @@ export type Schema<T> = {
 };
 
 export interface Validator<T> {
-  map<R>(fn: Validation<T, R>): Validator<R>;
+  then<R>(fn: Validation<T, R>): Validator<R>;
   validate(input: unknown): Promise<Result<T>>;
 }

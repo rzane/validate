@@ -1,7 +1,7 @@
 import { Validator, Validation } from "./types";
 
 const create = <T>(validate: Validation<unknown, T>): Validator<T> => {
-  const map = <R>(nextValidation: Validation<T, R>): Validator<R> => {
+  const then = <R>(nextValidation: Validation<T, R>): Validator<R> => {
     return create(async input => {
       const result = await validate(input);
 
@@ -13,9 +13,9 @@ const create = <T>(validate: Validation<unknown, T>): Validator<T> => {
     });
   };
 
-  return { map, validate };
+  return { then, validate };
 };
 
-export const validate = create<unknown>(value =>
+export const { then: map } = create<unknown>((value: unknown) =>
   Promise.resolve({ value, ok: true })
 );
