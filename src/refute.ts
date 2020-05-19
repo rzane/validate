@@ -1,15 +1,10 @@
-import { Predicate, Result } from "./types";
+import { Predicate } from "./types";
+import { assert } from "./assert";
 
-export const refute = <T>(fn: Predicate<T>, message: string = "is invalid") => {
-  return async (value: T): Promise<Result<T>> => {
-    if (typeof value === "undefined") {
-      return { value };
-    }
+const negate = <T>(fn: Predicate<T>): Predicate<T> => {
+  return async (...args) => !(await fn(...args));
+};
 
-    if (await fn(value)) {
-      return { value, errors: [{ message, path: [] }] };
-    }
-
-    return { value };
-  };
+export const refute = <T>(fn: Predicate<T>, message?: string) => {
+  return assert(negate(fn), message);
 };
