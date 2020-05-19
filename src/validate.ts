@@ -4,13 +4,13 @@ import { each } from "./each";
 import { refute } from "./refute";
 import { required } from "./required";
 import { schema } from "./schema";
-import { Validate, Result, Problem } from "./types";
+import { Validator, Result, Problem } from "./types";
 
 type MaybeAsync<T> = T | Promise<T>;
 type Operation = (input: any) => MaybeAsync<Result<any>>;
 
-const create = <T>(operations: Operation[]): Validate<T> => {
-  const next = <R>(operation: Operation): Validate<R> => {
+const create = <T>(operations: Operation[]): Validator<T> => {
+  const next = <R>(operation: Operation): Validator<R> => {
     return create([...operations, operation]);
   };
 

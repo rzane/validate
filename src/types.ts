@@ -12,17 +12,17 @@ export interface Result<T> {
 }
 
 export type Schema<T> = {
-  [K in keyof T]: Validate<T[K]>;
+  [K in keyof T]: Validator<T[K]>;
 } & {
-  [key: string]: Validate<unknown>;
+  [key: string]: Validator<unknown>;
 };
 
-export interface Validate<T> {
-  cast<R>(fn: Cast<T, R>): Validate<R>;
-  assert(fn: Predicate<T>, message?: string): Validate<T>;
-  refute(fn: Predicate<T>, message?: string): Validate<T>;
-  required(message?: string): Validate<T>;
-  schema<R>(fields: Schema<R>): Validate<R>;
-  each<R>(validator: Validate<R>): Validate<R[]>;
+export interface Validator<T> {
+  cast<R>(fn: Cast<T, R>): Validator<R>;
+  assert(fn: Predicate<T>, message?: string): Validator<T>;
+  refute(fn: Predicate<T>, message?: string): Validator<T>;
+  required(message?: string): Validator<T>;
+  schema<R>(fields: Schema<R>): Validator<R>;
+  each<R>(validator: Validator<R>): Validator<R[]>;
   validate(input: unknown): Promise<Result<T>>;
 }

@@ -1,6 +1,6 @@
-import { Validate, Problem, Result } from "./types";
+import { Validator, Problem, Result } from "./types";
 
-export const each = <T>(validator: Validate<T>) => {
+export const each = <T>(validator: Validator<T>) => {
   return async (input: unknown): Promise<Result<T[]>> => {
     if (!Array.isArray(input)) {
       return { value: input as any };
