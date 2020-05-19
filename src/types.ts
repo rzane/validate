@@ -6,10 +6,10 @@ export interface Problem {
   path: Array<string | number>;
 }
 
-export interface Result<T> {
-  value: T;
-  errors?: Problem[];
-}
+export type Valid<T> = { ok: true; value: T };
+export type Invalid = { ok: false; errors: Problem[] };
+export type Result<T> = Valid<T> | Invalid;
+export type Validation<T, R> = (input: T) => Promise<Result<R>>;
 
 export type Schema<T> = {
   [K in keyof T]: Validator<T[K]>;
@@ -18,11 +18,6 @@ export type Schema<T> = {
 };
 
 export interface Validator<T> {
-  cast<R>(fn: Cast<T, R>): Validator<R>;
-  assert(fn: Predicate<T>, message?: string): Validator<T>;
-  refute(fn: Predicate<T>, message?: string): Validator<T>;
-  required(message?: string): Validator<T>;
-  schema<R>(fields: Schema<R>): Validator<R>;
-  each<R>(validator: Validator<R>): Validator<R[]>;
+  map<R>(fn: Validation<T, R>): Validator<R>;
   validate(input: unknown): Promise<Result<T>>;
 }

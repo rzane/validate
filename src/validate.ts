@@ -1,48 +1,21 @@
-import { assert } from "./assert";
-import { cast } from "./cast";
-import { each } from "./each";
-import { refute } from "./refute";
-import { required } from "./required";
-import { schema } from "./schema";
-import { Validator, Result, Problem } from "./types";
+import { Validator, Validation } from "./types";
 
-type MaybeAsync<T> = T | Promise<T>;
-type Operation = (input: any) => MaybeAsync<Result<any>>;
+const create = <T>(validate: Validation<unknown, T>): Validator<T> => {
+  const map = <R>(nextValidation: Validation<T, R>): Validator<R> => {
+    return create(async input => {
+      const result = await validate(input);
 
-const create = <T>(operations: Operation[]): Validator<T> => {
-  const next = <R>(operation: Operation): Validator<R> => {
-    return create([...operations, operation]);
-  };
-
-  const validate = async (input: unknown): Promise<Result<T>> => {
-    let value: any = input;
-    const errors: Problem[] = [];
-
-    for (const operation of operations) {
-      const result = await operation(value);
-      value = result.value;
-
-      if (result.errors) {
-        errors.push(...result.errors);
+      if (result.ok) {
+        return nextValidation(result.value);
+      } else {
+        return result;
       }
-    }
-
-    if (errors.length) {
-      return { value, errors };
-    } else {
-      return { value };
-    }
+    });
   };
 
-  return {
-    validate,
-    schema: (...args) => next(schema(...args)),
-    each: (...args) => next(each(...args)),
-    required: (...args) => next(required(...args)),
-    cast: (...args) => next(cast(...args)),
-    assert: (...args) => next(assert(...args)),
-    refute: (...args) => next(refute(...args))
-  };
+  return { map, validate };
 };
 
-export const validate = create<unknown>([]);
+export const validate = create<unknown>(value =>
+  Promise.resolve({ value, ok: true })
+);
