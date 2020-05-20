@@ -1,10 +1,7 @@
 import { map } from "./map";
 import { Schema, Validator, Problem } from "./types";
 import { putPath, invalid, valid } from "./result";
-
-const isObject = (value: unknown): boolean => {
-  return value !== null && typeof value === "object";
-};
+import { isObject } from "./predicates";
 
 export const schema = <T>(validators: Schema<T>): Validator<T> => {
   const keys = Object.keys(validators);

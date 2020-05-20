@@ -5,9 +5,16 @@ test("exports", () => {
     "assert",
     "cast",
     "each",
+    "isBlank",
+    "isBoolean",
+    "isNonNullable",
+    "isNull",
+    "isNumber",
+    "isObject",
+    "isString",
+    "isUndefined",
     "map",
     "refute",
-    "required",
     "schema"
   ]);
 });
