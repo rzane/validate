@@ -1,40 +1,40 @@
-import { Schema, Problem } from "./types";
+import { map } from "./map";
+import { Schema, Validator, Problem } from "./types";
+import { putPath, invalid, valid } from "./result";
 
 const isObject = (value: unknown): boolean => {
   return value !== null && typeof value === "object";
 };
 
-export const schema = <T>(validators: Schema<T>) => {
+export const schema = <T>(validators: Schema<T>): Validator<T> => {
   const keys = Object.keys(validators);
 
-  return async (input: any) => {
+  return map(async input => {
     if (!isObject(input)) {
-      return { value: input };
+      return invalid([{ message: "is not an object", path: [] }]);
     }
 
     const values: any = {};
     const errors: Problem[] = [];
 
     const promises = keys.map(async key => {
-      const rawValue = input[key];
+      const rawValue = (input as any)[key];
       const validator = validators[key];
-      const field = await validator.validate(rawValue);
+      const result = await validator.validate(rawValue);
 
-      values[key] = field.value;
-
-      if (field.errors) {
-        for (const error of field.errors) {
-          errors.push({ ...error, path: [key, ...error.path] });
-        }
+      if (result.ok) {
+        values[key] = result.value;
+      } else {
+        errors.push(...result.errors.map(problem => putPath(problem, key)));
       }
     });
 
     await Promise.all(promises);
 
     if (errors.length) {
-      return { value: values, errors };
+      return invalid(errors);
     } else {
-      return { value: values };
+      return valid(values);
     }
-  };
+  });
 };

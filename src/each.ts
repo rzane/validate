@@ -1,30 +1,32 @@
-import { Validator, Problem, Result } from "./types";
+import { map } from "./map";
+import { Validator, Problem } from "./types";
+import { valid, invalid, putPath } from "./result";
 
-export const each = <T>(validator: Validator<T>) => {
-  return async (input: unknown): Promise<Result<T[]>> => {
+export const each = <T>(validator: Validator<T>): Validator<T[]> => {
+  return map(async input => {
     if (!Array.isArray(input)) {
-      return { value: input as any };
+      return invalid([{ message: "is not an array", path: [] }]);
     }
 
     const value: T[] = [];
     const errors: Problem[] = [];
 
     const promises = input.map(async (value, i) => {
-      const field = await validator.validate(value);
+      const result = await validator.validate(value);
 
-      value[i] = field.value;
-
-      for (const error of field.errors || []) {
-        errors.push({ ...error, path: [i, ...error.path] });
+      if (result.ok) {
+        value[i] = result.value;
+      } else {
+        errors.push(...result.errors.map(problem => putPath(problem, i)));
       }
     });
 
     await Promise.all(promises);
 
     if (errors.length) {
-      return { value, errors };
+      return invalid(errors);
     } else {
-      return { value };
+      return valid(value);
     }
-  };
+  });
 };

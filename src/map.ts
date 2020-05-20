@@ -1,8 +1,12 @@
 import { Validator, Validation } from "./types";
 
-const create = <T>(validate: Validation<unknown, T>): Validator<T> => {
-  const then = <R>(nextValidation: Validation<T, R>): Validator<R> => {
-    return create(async input => {
+export const map = <T>(validate: Validation<unknown, T>): Validator<T> => ({
+  validate(value) {
+    return Promise.resolve(validate(value));
+  },
+
+  then(nextValidation) {
+    return map(async input => {
       const result = await validate(input);
 
       if (result.ok) {
@@ -11,11 +15,5 @@ const create = <T>(validate: Validation<unknown, T>): Validator<T> => {
         return result;
       }
     });
-  };
-
-  return { then, validate };
-};
-
-export const { then: map } = create<unknown>((value: unknown) =>
-  Promise.resolve({ value, ok: true })
-);
+  }
+});

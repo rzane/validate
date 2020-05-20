@@ -9,7 +9,7 @@ export interface Problem {
 export type Valid<T> = { ok: true; value: T };
 export type Invalid = { ok: false; errors: Problem[] };
 export type Result<T> = Valid<T> | Invalid;
-export type Validation<T, R> = (input: T) => Promise<Result<R>>;
+export type Validation<T, R> = (input: T) => Result<R> | Promise<Result<R>>;
 
 export type Schema<T> = {
   [K in keyof T]: Validator<T[K]>;
