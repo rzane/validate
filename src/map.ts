@@ -9,7 +9,7 @@ export const map = <T>(validate: Validation<unknown, T>): Validator<T> => ({
     return map(async input => {
       const result = await validate(input);
 
-      if (result.ok) {
+      if (result.valid) {
         return nextValidation(result.value);
       } else {
         return result;

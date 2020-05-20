@@ -1,12 +1,12 @@
 import { Valid, Invalid, Problem } from "./types";
 
 export const valid = <T>(value: T): Valid<T> => ({
-  ok: true,
+  valid: true,
   value
 });
 
 export const invalid = (errors: Problem[]): Invalid => ({
-  ok: false,
+  valid: false,
   errors
 });
 

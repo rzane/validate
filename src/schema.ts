@@ -22,7 +22,7 @@ export const schema = <T>(validators: Schema<T>): Validator<T> => {
       const validator = validators[key];
       const result = await validator.validate(rawValue);
 
-      if (result.ok) {
+      if (result.valid) {
         values[key] = result.value;
       } else {
         errors.push(...result.errors.map(problem => putPath(problem, key)));

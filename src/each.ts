@@ -14,7 +14,7 @@ export const each = <T>(validator: Validator<T>): Validator<T[]> => {
     const promises = input.map(async (value, i) => {
       const result = await validator.validate(value);
 
-      if (result.ok) {
+      if (result.valid) {
         value[i] = result.value;
       } else {
         errors.push(...result.errors.map(problem => putPath(problem, i)));

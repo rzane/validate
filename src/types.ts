@@ -6,8 +6,8 @@ export interface Problem {
   path: Array<string | number>;
 }
 
-export type Valid<T> = { ok: true; value: T };
-export type Invalid = { ok: false; errors: Problem[] };
+export type Valid<T> = { valid: true; value: T };
+export type Invalid = { valid: false; errors: Problem[] };
 export type Result<T> = Valid<T> | Invalid;
 export type Validation<T, R> = (input: T) => Result<R> | Promise<Result<R>>;
 
