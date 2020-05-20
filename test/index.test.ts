@@ -1,5 +1,4 @@
 import * as validate from "../src";
-import { isString } from "../src";
 
 test("exports", () => {
   expect(Object.keys(validate).sort()).toEqual([
@@ -14,11 +13,9 @@ test("exports", () => {
     "isString",
     "isUndefined",
     "map",
+    "nullable",
+    "optional",
     "refute",
     "schema"
   ]);
-});
-
-validate.schema({
-  name: validate.maybe(validate.assert(isString)).then(validate.map(v => v))
 });
