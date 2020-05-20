@@ -1,4 +1,4 @@
-export type Cast<T, R> = (value: T) => R | Promise<R>;
+export type Transform<T, R> = (value: T) => R | Promise<R>;
 
 export type Predicate<T> = (value: T) => boolean | Promise<boolean>;
 
@@ -14,15 +14,18 @@ export interface Problem {
 export type Valid<T> = { valid: true; value: T };
 export type Invalid = { valid: false; errors: Problem[] };
 export type Result<T> = Valid<T> | Invalid;
-export type Validation<T, R> = (input: T) => Result<R> | Promise<Result<R>>;
+export type Validate<T, R> = (input: T) => Promise<Result<R>>;
 
 export type Schema<T> = {
-  [K in keyof T]: Validator<T[K]>;
+  [K in keyof T]: Validator<unknown, T[K]>;
 } & {
-  [key: string]: Validator<unknown>;
+  [key: string]: Validator<unknown, unknown>;
 };
 
-export interface Validator<T> {
-  then<R>(next: Validation<T, R>): Validator<R>;
-  validate(input: unknown): Promise<Result<T>>;
+export interface Validator<Input, Value> {
+  then<NextValue>(
+    next: Validator<Value, NextValue>
+  ): Validator<Input, NextValue>;
+
+  validate(input: Input): Promise<Result<Value>>;
 }
