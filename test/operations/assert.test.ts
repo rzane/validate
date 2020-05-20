@@ -1,4 +1,4 @@
-import { assert } from "../../src";
+import { assert, isNumber, map } from "../../src";
 
 describe("assert", () => {
   it("produces an error for invalid values", async () => {
@@ -19,6 +19,17 @@ describe("assert", () => {
     expect(await assert(Boolean).validate(true)).toEqual({
       valid: true,
       value: true
+    });
+  });
+
+  it("is chainable", async () => {
+    const schema = assert(isNumber)
+      .then(map(v => v + 1))
+      .then(map(v => v + 1));
+
+    expect(await schema.validate(1)).toEqual({
+      valid: true,
+      value: 3
     });
   });
 });
