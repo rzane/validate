@@ -1,5 +1,5 @@
 import { valid, invalid } from "./result";
-import { Predicate, Validation, Cast } from "./types";
+import { Predicate, Validation, Cast, Assertion } from "./types";
 
 const negate = <T>(fn: Predicate<T>): Predicate<T> => {
   return async (...args) => !(await fn(...args));
@@ -13,13 +13,13 @@ const isBlank = (value: unknown) => {
   );
 };
 
-export const assert = <T>(
-  fn: Predicate<T>,
+export const assert = <T, S extends T>(
+  fn: Assertion<T, S>,
   message: string = "This field is invalid"
-): Validation<T, T> => {
+): Validation<T, S> => {
   return async value => {
     if (await fn(value)) {
-      return valid(value);
+      return valid(value as any);
     } else {
       return invalid([{ message, path: [] }]);
     }
@@ -40,5 +40,5 @@ export const cast = <T, R>(fn: Cast<T, R>): Validation<T, R> => {
 export const required = <T>(
   message: string = "This field can't be blank"
 ): Validation<T, NonNullable<T>> => {
-  return refute<T>(isBlank, message) as any;
+  return refute(isBlank, message) as any;
 };

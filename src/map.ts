@@ -5,12 +5,12 @@ export const map = <T>(validate: Validation<unknown, T>): Validator<T> => ({
     return Promise.resolve(validate(value));
   },
 
-  then(nextValidation) {
+  then(next) {
     return map(async input => {
       const result = await validate(input);
 
       if (result.valid) {
-        return nextValidation(result.value);
+        return next(result.value);
       } else {
         return result;
       }

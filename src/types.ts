@@ -1,5 +1,10 @@
 export type Cast<T, R> = (value: T) => R | Promise<R>;
+
 export type Predicate<T> = (value: T) => boolean | Promise<boolean>;
+
+export type Assertion<T, S extends T> =
+  | ((value: T) => value is S)
+  | Predicate<T>;
 
 export interface Problem {
   message: string;
@@ -18,6 +23,6 @@ export type Schema<T> = {
 };
 
 export interface Validator<T> {
-  then<R>(fn: Validation<T, R>): Validator<R>;
+  then<R>(next: Validation<T, R>): Validator<R>;
   validate(input: unknown): Promise<Result<T>>;
 }
