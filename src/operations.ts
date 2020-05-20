@@ -1,7 +1,7 @@
-import { isUndefined } from "./predicates";
+import { isUndefined, isNull } from "./predicates";
 import { chain } from "./chain";
 import { valid, invalid } from "./result";
-import { Predicate, Transform, Assertion, Validator } from "./types";
+import { Predicate, Transform, Assertion, Validator, Forbid } from "./types";
 
 /**
  * Transform the input value to a new value.
@@ -36,17 +36,24 @@ export const refute = <T>(
   return assert(async value => !(await fn(value)), message);
 };
 
+const createMaybe = <E>(test: Assertion<any, E>) => {
+  return <T, R>(validator: Validator<Forbid<T, E>, R>): Validator<T, R | E> => {
+    return chain(async input => {
+      if (test(input)) {
+        return valid<R | E>(input);
+      } else {
+        return validator.validate(input as any);
+      }
+    });
+  };
+};
+
 /**
  * Ignore `undefined` values when validating.
  */
-export const maybe = <I, T>(
-  validator: Validator<I extends undefined ? never : I, T>
-): Validator<I, T | undefined> => {
-  return chain(async input => {
-    if (isUndefined(input)) {
-      return valid<undefined>(input);
-    } else {
-      return validator.validate(input as any);
-    }
-  });
-};
+export const optional = createMaybe(isUndefined);
+
+/**
+ * Ignore null values when validating.
+ */
+export const nullable = createMaybe(isNull);
