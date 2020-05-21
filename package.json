@@ -12,7 +12,10 @@
     "lib/**/*"
   ],
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "collectCoverageFrom": [
+      "src/**/*"
+    ]
   },
   "prettier": {
     "arrowParens": "avoid",
