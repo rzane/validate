@@ -20,9 +20,9 @@ export const schema = <I, T>(validators: Schema<T>): Validator<I, T> => {
     const errors: Problem[] = [];
 
     const promises = keys.map(async key => {
-      const rawValue = (input as any)[key];
+      const value = (input as any)[key];
       const validator = validators[key];
-      const result = await validator.validate(rawValue);
+      const result = await validator.validate(value);
 
       if (result.valid) {
         values[key] = result.value;
