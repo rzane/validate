@@ -1,11 +1,10 @@
-import { Validator } from "./Validator";
-import { valid, invalid, putPath } from "./result";
+import { Validator, putPath } from "./Validator";
 import { Problem } from "./types";
 
 export const each = <I, T>(validator: Validator<I, T>): Validator<I[], T[]> => {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
-      return invalid([{ message: "is not an array", path: [] }]);
+      return Validator.invalid("is not an array");
     }
 
     const values: T[] = [];
@@ -24,9 +23,9 @@ export const each = <I, T>(validator: Validator<I, T>): Validator<I[], T[]> => {
     await Promise.all(promises);
 
     if (errors.length) {
-      return invalid(errors);
+      return Validator.invalid(errors);
     } else {
-      return valid(values);
+      return Validator.valid(values);
     }
   });
 };

@@ -1,4 +1,10 @@
-import { Validate } from "./types";
+import { Validate, Problem, Valid, Invalid } from "./types";
+import { isString } from "./predicates";
+
+export const putPath = (problem: Problem, key: string | number): Problem => ({
+  ...problem,
+  path: [key, ...problem.path]
+});
 
 export class Validator<I, T> {
   public validate: Validate<I, T>;
@@ -17,5 +23,17 @@ export class Validator<I, T> {
         return result;
       }
     });
+  }
+
+  public static valid<T>(value: T): Valid<T> {
+    return { valid: true, value };
+  }
+
+  public static invalid(errors: string | Problem[]): Invalid {
+    if (isString(errors)) {
+      errors = [{ message: errors, path: [] }];
+    }
+
+    return { valid: false, errors };
   }
 }

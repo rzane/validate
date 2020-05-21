@@ -1,6 +1,5 @@
-import { Validator } from "./Validator";
+import { Validator, putPath } from "./Validator";
 import { Problem } from "./types";
-import { putPath, invalid, valid } from "./result";
 import { isObject } from "./predicates";
 
 export type Schema<T> = {
@@ -14,7 +13,7 @@ export const schema = <I, T>(validators: Schema<T>): Validator<I, T> => {
 
   return new Validator(async input => {
     if (!isObject(input)) {
-      return invalid([{ message: "is not an object", path: [] }]);
+      return Validator.invalid("is not an object");
     }
 
     const values: any = {};
@@ -35,9 +34,9 @@ export const schema = <I, T>(validators: Schema<T>): Validator<I, T> => {
     await Promise.all(promises);
 
     if (errors.length) {
-      return invalid(errors);
+      return Validator.invalid(errors);
     } else {
-      return valid(values);
+      return Validator.valid(values);
     }
   });
 };
