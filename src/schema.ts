@@ -13,7 +13,7 @@ export const schema = <I, T>(validators: Schema<T>): Validator<I, T> => {
 
   return new Validator(async input => {
     if (!isObject(input)) {
-      return Validator.invalid("is not an object");
+      return Validator.reject("is not an object");
     }
 
     const values: any = {};
@@ -34,9 +34,9 @@ export const schema = <I, T>(validators: Schema<T>): Validator<I, T> => {
     await Promise.all(promises);
 
     if (errors.length) {
-      return Validator.invalid(errors);
+      return Validator.reject(errors);
     } else {
-      return Validator.valid(values);
+      return Validator.resolve(values);
     }
   });
 };

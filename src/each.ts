@@ -4,7 +4,7 @@ import { Problem } from "./types";
 export const each = <I, T>(validator: Validator<I, T>): Validator<I[], T[]> => {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
-      return Validator.invalid("is not an array");
+      return Validator.reject("is not an array");
     }
 
     const values: T[] = [];
@@ -23,9 +23,9 @@ export const each = <I, T>(validator: Validator<I, T>): Validator<I[], T[]> => {
     await Promise.all(promises);
 
     if (errors.length) {
-      return Validator.invalid(errors);
+      return Validator.reject(errors);
     } else {
-      return Validator.valid(values);
+      return Validator.resolve(values);
     }
   });
 };

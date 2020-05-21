@@ -25,11 +25,11 @@ export class Validator<I, T> {
     });
   }
 
-  public static valid<T>(value: T): Valid<T> {
+  public static resolve<T>(value: T): Valid<T> {
     return { valid: true, value };
   }
 
-  public static invalid(errors: string | Problem[]): Invalid {
+  public static reject(errors: string | Problem[]): Invalid {
     if (isString(errors)) {
       errors = [{ message: errors, path: [] }];
     }

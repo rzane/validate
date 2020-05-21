@@ -6,7 +6,7 @@ import { Predicate, Transform, Assertion, Forbid } from "./types";
  * Transform the input value to a new value.
  */
 export const map = <T, R>(fn: Transform<T, R>): Validator<T, R> => {
-  return new Validator(async value => Validator.valid(await fn(value)));
+  return new Validator(async value => Validator.resolve(await fn(value)));
 };
 
 /**
@@ -18,9 +18,9 @@ export const assert = <T, R extends T>(
 ): Validator<T, R> => {
   return new Validator(async value => {
     if (await fn(value)) {
-      return Validator.valid(value as R);
+      return Validator.resolve(value as R);
     } else {
-      return Validator.invalid(message);
+      return Validator.reject(message);
     }
   });
 };
@@ -39,7 +39,7 @@ const createMaybe = <E>(test: Assertion<any, E>) => {
   return <T, R>(validator: Validator<Forbid<T, E>, R>): Validator<T, R | E> => {
     return new Validator(async input => {
       if (test(input)) {
-        return Validator.valid<R | E>(input);
+        return Validator.resolve<R | E>(input);
       } else {
         return validator.validate(input as any);
       }
