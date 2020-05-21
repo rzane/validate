@@ -22,6 +22,10 @@ export const isObject = (value: unknown): value is object => {
   return value !== null && typeof value === "object";
 };
 
+export const isArray = (value: unknown): value is unknown[] => {
+  return Array.isArray(value);
+};
+
 export const isUndefined = (value: unknown): value is undefined => {
   return typeof value === "undefined";
 };
@@ -42,6 +46,7 @@ export const isNotString = negateGuard(isString);
 export const isNotNumber = negateGuard(isNumber);
 export const isNotBoolean = negateGuard(isBoolean);
 export const isNotObject = negateGuard(isObject);
+export const isNotArray = negateGuard(isArray);
 export const isNotUndefined = negateGuard(isUndefined);
 export const isNotNull = negateGuard(isNull);
 export const isNotNil = negateGuard(isNil);
