@@ -20,10 +20,10 @@ test("predicates", () => {
     "isBlank",
     "isBoolean",
     "isNil",
+    "isNotNil",
     "isNull",
     "isNumber",
     "isObject",
-    "isPresent",
     "isString",
     "isUndefined"
   ]);

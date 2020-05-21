@@ -26,7 +26,7 @@ export const isNil = (value: unknown): value is null | undefined => {
   return isNull(value) || isUndefined(value);
 };
 
-export const isPresent = <T>(value: T | undefined | null): value is T => {
+export const isNotNil = <T>(value: T | undefined | null): value is T => {
   return !isNil(value);
 };
 
