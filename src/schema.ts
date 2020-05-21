@@ -1,7 +1,13 @@
 import { Validator } from "./Validator";
-import { Schema, Problem } from "./types";
+import { Problem } from "./types";
 import { putPath, invalid, valid } from "./result";
 import { isObject } from "./predicates";
+
+export type Schema<T> = {
+  [K in keyof T]: Validator<unknown, T[K]>;
+} & {
+  [key: string]: Validator<unknown, unknown>;
+};
 
 export const schema = <I, T>(validators: Schema<T>): Validator<I, T> => {
   const keys = Object.keys(validators);
