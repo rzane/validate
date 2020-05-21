@@ -1,3 +1,11 @@
+const negatePredicate = <T>(fn: (value: T) => boolean) => {
+  return (value: T): boolean => !fn(value);
+};
+
+const negateGuard = <S>(fn: (value: unknown) => value is S) => {
+  return <T>(value: T | S): value is T => !fn(value);
+};
+
 export const isString = (value: unknown): value is string => {
   return typeof value === "string";
 };
@@ -26,10 +34,15 @@ export const isNil = (value: unknown): value is null | undefined => {
   return isNull(value) || isUndefined(value);
 };
 
-export const isNotNil = <T>(value: T | undefined | null): value is T => {
-  return !isNil(value);
-};
-
 export const isBlank = (value: string): boolean => {
   return value.trim() === "";
 };
+
+export const isNotString = negateGuard(isString);
+export const isNotNumber = negateGuard(isNumber);
+export const isNotBoolean = negateGuard(isBoolean);
+export const isNotObject = negateGuard(isObject);
+export const isNotUndefined = negateGuard(isUndefined);
+export const isNotNull = negateGuard(isNull);
+export const isNotNil = negateGuard(isNil);
+export const isNotBlank = negatePredicate(isBlank);
