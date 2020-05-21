@@ -1,4 +1,5 @@
-import { assert, isNumber, map } from "../../src";
+import { assert, map } from "../../src";
+import { isNumber } from "../../src/predicates";
 
 describe("assert", () => {
   it("produces an error for invalid values", async () => {

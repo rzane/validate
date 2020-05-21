@@ -1,10 +1,22 @@
-import * as validate from "../src";
+import * as index from "../src";
+import * as predicates from "../src/predicates";
 
-test("exports", () => {
-  expect(Object.keys(validate).sort()).toEqual([
+test("index", () => {
+  expect(Object.keys(index).sort()).toEqual([
     "Validator",
     "assert",
     "each",
+    "map",
+    "maybe",
+    "nullable",
+    "optional",
+    "refute",
+    "schema"
+  ]);
+});
+
+test("predicates", () => {
+  expect(Object.keys(predicates).sort()).toEqual([
     "isBlank",
     "isBoolean",
     "isNil",
@@ -13,12 +25,6 @@ test("exports", () => {
     "isObject",
     "isPresent",
     "isString",
-    "isUndefined",
-    "map",
-    "maybe",
-    "nullable",
-    "optional",
-    "refute",
-    "schema"
+    "isUndefined"
   ]);
 });
