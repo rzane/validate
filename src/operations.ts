@@ -1,13 +1,13 @@
 import { isUndefined, isNull } from "./predicates";
-import { chain } from "./chain";
+import { Validator } from "./Validator";
 import { valid, invalid } from "./result";
-import { Predicate, Transform, Assertion, Validator, Forbid } from "./types";
+import { Predicate, Transform, Assertion, Forbid } from "./types";
 
 /**
  * Transform the input value to a new value.
  */
 export const map = <T, R>(fn: Transform<T, R>): Validator<T, R> => {
-  return chain(async value => valid(await fn(value)));
+  return new Validator(async value => valid(await fn(value)));
 };
 
 /**
@@ -17,7 +17,7 @@ export const assert = <T, R extends T>(
   fn: Assertion<T, R>,
   message: string = "This field is invalid"
 ): Validator<T, R> => {
-  return chain(async value => {
+  return new Validator(async value => {
     if (await fn(value)) {
       return valid(value as R);
     } else {
@@ -38,7 +38,7 @@ export const refute = <T>(
 
 const createMaybe = <E>(test: Assertion<any, E>) => {
   return <T, R>(validator: Validator<Forbid<T, E>, R>): Validator<T, R | E> => {
-    return chain(async input => {
+    return new Validator(async input => {
       if (test(input)) {
         return valid<R | E>(input);
       } else {

@@ -1,9 +1,9 @@
-import { chain } from "./chain";
-import { Validator, Problem } from "./types";
+import { Validator } from "./Validator";
 import { valid, invalid, putPath } from "./result";
+import { Problem } from "./types";
 
 export const each = <I, T>(validator: Validator<I, T>): Validator<I[], T[]> => {
-  return chain(async input => {
+  return new Validator(async input => {
     if (!Array.isArray(input)) {
       return invalid([{ message: "is not an array", path: [] }]);
     }

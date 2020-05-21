@@ -1,12 +1,12 @@
-import { chain } from "./chain";
-import { Schema, Validator, Problem } from "./types";
+import { Validator } from "./Validator";
+import { Schema, Problem } from "./types";
 import { putPath, invalid, valid } from "./result";
 import { isObject } from "./predicates";
 
 export const schema = <I, T>(validators: Schema<T>): Validator<I, T> => {
   const keys = Object.keys(validators);
 
-  return chain(async input => {
+  return new Validator(async input => {
     if (!isObject(input)) {
       return invalid([{ message: "is not an object", path: [] }]);
     }
