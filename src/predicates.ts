@@ -1,10 +1,13 @@
-const negatePredicate = <T>(fn: (value: T) => boolean) => {
-  return (value: T): boolean => !fn(value);
-};
-
-const negateGuard = <S>(fn: (value: unknown) => value is S) => {
-  return <T>(value: T | S): value is T => !fn(value);
-};
+export function negate<S>(
+  fn: (value: unknown) => value is S
+): <T>(value: T | S) => value is T;
+export function negate<T>(fn: (value: T) => boolean): (value: T) => boolean;
+export function negate<T>(
+  fn: (value: T) => Promise<boolean>
+): (value: T) => Promise<boolean>;
+export function negate(fn: any): any {
+  return (...args: any) => !fn(...args);
+}
 
 export const isString = (value: unknown): value is string => {
   return typeof value === "string";
@@ -42,12 +45,10 @@ export const isBlank = (value: string): boolean => {
   return value.trim() === "";
 };
 
-export const isNotString = negateGuard(isString);
-export const isNotNumber = negateGuard(isNumber);
-export const isNotBoolean = negateGuard(isBoolean);
-export const isNotObject = negateGuard(isObject);
-export const isNotArray = negateGuard(isArray);
-export const isNotUndefined = negateGuard(isUndefined);
-export const isNotNull = negateGuard(isNull);
-export const isNotNil = negateGuard(isNil);
-export const isNotBlank = negatePredicate(isBlank);
+export const isInteger = Number.isInteger;
+export const isNaN = Number.isNaN;
+
+export const isGt = (n: number) => (v: number) => v > n;
+export const isGte = (n: number) => (v: number) => v >= n;
+export const isLt = (n: number) => (v: number) => v < n;
+export const isLte = (n: number) => (v: number) => v <= n;
