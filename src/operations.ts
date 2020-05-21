@@ -1,5 +1,5 @@
-import { isUndefined, isNull } from "./predicates";
 import { Validator } from "./Validator";
+import { isUndefined, isNull, isNil } from "./predicates";
 import { Predicate, Transform, Assertion, Forbid } from "./types";
 
 /**
@@ -48,7 +48,7 @@ const createMaybe = <E>(test: Assertion<any, E>) => {
 };
 
 /**
- * Ignore `undefined` values when validating.
+ * Ignore undefined values when validating.
  */
 export const optional = createMaybe(isUndefined);
 
@@ -56,3 +56,8 @@ export const optional = createMaybe(isUndefined);
  * Ignore null values when validating.
  */
 export const nullable = createMaybe(isNull);
+
+/**
+ * Ignore null or undefined values when validating
+ */
+export const maybe = createMaybe(isNil);

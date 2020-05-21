@@ -22,8 +22,12 @@ export const isNull = (value: unknown): value is null => {
   return value === null;
 };
 
-export const isNonNullable = <T>(value: T | undefined | null): value is T => {
-  return !isUndefined(value) && !isNull(value);
+export const isNil = (value: unknown): value is null | undefined => {
+  return isNull(value) || isUndefined(value);
+};
+
+export const isPresent = <T>(value: T | undefined | null): value is T => {
+  return !isNil(value);
 };
 
 export const isBlank = (value: string): boolean => {
