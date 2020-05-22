@@ -1,7 +1,9 @@
 import { Validator, putPath } from "./Validator";
 import { Problem } from "./types";
 
-export const each = <I, T>(validator: Validator<I, T>): Validator<I[], T[]> => {
+export const each = <T>(
+  validator: Validator<unknown, T>
+): Validator<unknown[], T[]> => {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
       return Validator.reject("is not an array");
