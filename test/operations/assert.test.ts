@@ -5,7 +5,7 @@ describe("assert", () => {
   it("produces an error for invalid values", async () => {
     expect(await assert(Boolean).validate(false)).toEqual({
       valid: false,
-      errors: [{ message: "This field is invalid", path: [] }]
+      errors: [{ message: "This field is invalid.", path: [] }]
     });
   });
 

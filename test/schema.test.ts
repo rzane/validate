@@ -2,7 +2,7 @@ import { schema, assert, optional } from "../src";
 import { isNumber, isString } from "./../src/predicates";
 
 const assertAge = (n: number) => {
-  return assert<number, number>(age => age >= n, `Must be ${n} or older`);
+  return assert<number>(age => age >= n, `Must be ${n} or older`);
 };
 
 describe("schema", () => {

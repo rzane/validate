@@ -17,14 +17,21 @@ test("index", () => {
 
 test("predicates", () => {
   expect(Object.keys(predicates).sort()).toEqual([
+    "isArray",
     "isBlank",
     "isBoolean",
+    "isGt",
+    "isGte",
+    "isInteger",
+    "isLt",
+    "isLte",
+    "isNaN",
     "isNil",
-    "isNotNil",
     "isNull",
     "isNumber",
     "isObject",
     "isString",
-    "isUndefined"
+    "isUndefined",
+    "not"
   ]);
 });
