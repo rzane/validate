@@ -1,4 +1,4 @@
-import { schema, assert, optional } from "../src";
+import { schema, assert, optional, refute, map } from "../src";
 import { isNumber, isString } from "./../src/predicates";
 
 const assertAge = (n: number) => {

@@ -1,10 +1,10 @@
 import { Validator } from "./Validator";
-import { isUndefined, isNull, isNil, not } from "./predicates";
-import { Transform, Forbid, Assert, Predicate } from "./types";
+import { isUndefined, isNull, isNil } from "./predicates";
+import { Transform, Forbid, Guard, Predicate } from "./types";
 
 const MESSAGE = "This field is invalid.";
 
-const exclude = <E>(test: Assert<any, E>) => {
+const exclude = <E>(test: Guard<any, E>) => {
   return <T, R>(validator: Validator<Forbid<T, E>, R>): Validator<T, R | E> => {
     return new Validator(async input => {
       if (test(input)) {
@@ -42,7 +42,7 @@ export const map = <T, R>(fn: Transform<T, R>): Validator<T, R> => {
  * Produce an error if the value does not pass the test.
  */
 export function assert<T, S extends T>(
-  fn: Assert<T, S>,
+  fn: (value: T) => value is S,
   msg?: string
 ): Validator<T, S>;
 export function assert<T>(fn: Predicate<T>, msg?: string): Validator<T, T>;
@@ -58,7 +58,9 @@ export function assert(fn: Predicate<any>, msg = MESSAGE): Validator<any, any> {
 
 /**
  * Produce an error if the value passes the test.
+ *
+ * Note: This operation does not perform any type-narrowing.
  */
 export const refute = <T>(fn: Predicate<T>, msg?: string): Validator<T, T> => {
-  return assert(not(fn), msg);
+  return assert(async value => !(await fn(value)), msg);
 };

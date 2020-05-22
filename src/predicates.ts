@@ -1,14 +1,3 @@
-import { Assert, Refute, Predicate } from "./types";
-
-export function not<S>(
-  fn: (value: unknown) => value is S
-): <T>(value: T | S) => value is T;
-export function not<T, S extends T>(fn: Assert<T, S>): Refute<T, S>;
-export function not<T>(fn: Predicate<T>): Predicate<T>;
-export function not(fn: any): any {
-  return (...args: any) => !fn(...args);
-}
-
 export const isString = (value: unknown): value is string => {
   return typeof value === "string";
 };
