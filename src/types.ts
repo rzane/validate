@@ -5,9 +5,10 @@ export type Transform<T, R> = (value: T) => R | Promise<R>;
 export type Predicate<T> = (value: T) => boolean | Promise<boolean>;
 export type Guard<T, S extends T> = (value: T) => value is S;
 
+export type Path = Array<string | number>;
 export interface Problem {
   message: string;
-  path: Array<string | number>;
+  path: Path;
 }
 
 export type Valid<T> = { valid: true; value: T };

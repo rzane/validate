@@ -1,6 +1,6 @@
 import { Validator } from "./Validator";
 import { isUndefined, isNull, isNil } from "./predicates";
-import { Transform, Forbid, Guard, Predicate } from "./types";
+import { Transform, Forbid, Guard, Predicate, Path } from "./types";
 
 const MESSAGE = "This field is invalid";
 
@@ -45,15 +45,24 @@ export const map = <T, R>(fn: Transform<T, R>): Validator<T, R> => {
  */
 export function assert<T, S extends T>(
   fn: (value: T) => value is S,
-  msg?: string
+  message?: string,
+  path?: Path
 ): Validator<T, S>;
-export function assert<T>(fn: Predicate<T>, msg?: string): Validator<T, T>;
-export function assert(fn: Predicate<any>, msg = MESSAGE): Validator<any, any> {
+export function assert<T>(
+  fn: Predicate<T>,
+  message?: string,
+  path?: Path
+): Validator<T, T>;
+export function assert(
+  fn: Predicate<any>,
+  message = MESSAGE,
+  path = []
+): Validator<any, any> {
   return new Validator(async value => {
     if (await fn(value)) {
       return Validator.resolve(value);
     } else {
-      return Validator.reject(msg);
+      return Validator.reject([{ message, path }]);
     }
   });
 }
@@ -63,6 +72,10 @@ export function assert(fn: Predicate<any>, msg = MESSAGE): Validator<any, any> {
  *
  * Note: This operation does not perform any type-narrowing.
  */
-export const refute = <T>(fn: Predicate<T>, msg?: string): Validator<T, T> => {
-  return assert(async value => !(await fn(value)), msg);
+export const refute = <T>(
+  fn: Predicate<T>,
+  message?: string,
+  path?: Path
+): Validator<T, T> => {
+  return assert(async value => !(await fn(value)), message, path);
 };
