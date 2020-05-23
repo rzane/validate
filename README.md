@@ -41,9 +41,11 @@ Install the package from NPM:
 
     $ yarn add @stackup/validate
 
-## Validators
+## Operators
 
-A validator represents a step in the validation sequence. You can combine multiple validators with `then`.
+An operator is a function that returns a new [`Validator`](#validator).
+
+You can chain together multiple operators with `then`:
 
 ```javascript
 assert(isString)
@@ -118,6 +120,14 @@ Runs the given validator unless the value is either `null` or `undefined`.
 maybe(assert(isString));
 ```
 
+### `when(predicate, validator)`
+
+Runs the given validator when the predicate is truthy.
+
+```javascript
+when(isString, refute(isBlank));
+```
+
 #### `each(validator)`
 
 Runs the given validator against each item in an array.
@@ -125,6 +135,26 @@ Runs the given validator against each item in an array.
 ```javascript
 each(assert(isString));
 ```
+
+## Validator
+
+A `Validator` represents a step in the validation sequence. You probably won't
+create a validator directly, but you certainly could:
+
+```javascript
+const blankValidator = new Validator(input => {
+  if (isBlank(value)) {
+    return Validator.reject("can't be blank");
+  } else {
+    return Validator.resolve(value);
+  }
+});
+```
+
+A validator has two methods:
+
+- **`validate(input)`** - Runs the validator against user input.
+- **`then(validator)`** - Adds another validator to the chain.
 
 ## Predicates
 
