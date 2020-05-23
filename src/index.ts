@@ -8,3 +8,4 @@ export { assert } from "./operators/assert";
 export { refute } from "./operators/refute";
 export { when } from "./operators/when";
 export { maybe, optional, nullable } from "./operators/maybe";
+export { defaultTo } from "./operators/defaultTo";

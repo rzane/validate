@@ -4,6 +4,7 @@ test("index", () => {
   expect(Object.keys(index).sort()).toEqual([
     "Validator",
     "assert",
+    "defaultTo",
     "each",
     "isBlank",
     "isBoolean",

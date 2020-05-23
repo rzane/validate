@@ -135,6 +135,14 @@ Runs the given validator against each item in an array.
 each(assert(isString));
 ```
 
+### `defaultTo(value)`
+
+Provide a default value to replace `null` or `undefined` values.
+
+```javascript
+defaultTo(0);
+```
+
 ## Validator
 
 A `Validator` represents a step in the validation sequence. You probably won't
