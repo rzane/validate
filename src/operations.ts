@@ -1,12 +1,15 @@
 import { Validator } from "./Validator";
 import { isUndefined, isNull, isNil } from "./predicates";
-import { Transform, Forbid, Guard, Predicate, Path } from "./types";
+import { Transform, Guard, Predicate, Path } from "./types";
 
 const MESSAGE = "This field is invalid";
 
+/**
+ * @private
+ */
 const exclude = <E>(test: Guard<any, E>) => {
   return <T, R>(
-    validator: Validator<Forbid<T, E>, R>
+    validator: Validator<Exclude<T, E>, R>
   ): Validator<T | E, R | E> => {
     return new Validator(async input => {
       if (test(input)) {
@@ -19,7 +22,7 @@ const exclude = <E>(test: Guard<any, E>) => {
 };
 
 /**
- * Ignore null or undefined values when validating
+ * Ignore null or undefined values when validating.
  */
 export const maybe = exclude(isNil);
 
