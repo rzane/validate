@@ -1,4 +1,4 @@
-import { nullable, map, Validator } from "./../../src";
+import { nullable, map, Validator } from "../../src";
 
 describe("nullable", () => {
   const validator = nullable<number, number>(map(v => v * 2));

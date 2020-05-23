@@ -1,4 +1,4 @@
-import { maybe, map, Validator } from "./../../src";
+import { maybe, map, Validator } from "../../src";
 
 describe("maybe", () => {
   const validator = maybe<number, number>(map(v => v * 2));

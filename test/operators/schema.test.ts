@@ -1,5 +1,5 @@
-import { schema, assert, optional } from "../src";
-import { isNumber, isString } from "./../src/predicates";
+import { schema, assert, optional } from "../../src";
+import { isNumber, isString } from "../../src/predicates";
 
 const assertAge = (n: number) => {
   return assert<number>(age => age >= n, `Must be ${n} or older`);

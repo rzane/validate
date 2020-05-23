@@ -1,6 +1,6 @@
-import { Validator, putPath } from "./Validator";
-import { Problem } from "./types";
-import { isObject } from "./predicates";
+import { Validator, putPath } from "../Validator";
+import { Problem } from "../types";
+import { isObject } from "../predicates";
 
 export type Schema<T> = {
   [K in keyof T]: Validator<unknown, T[K]>;
@@ -8,7 +8,7 @@ export type Schema<T> = {
   [key: string]: Validator<unknown, unknown>;
 };
 
-export const schema = <T>(validators: Schema<T>): Validator<unknown, T> => {
+export function schema<T>(validators: Schema<T>): Validator<unknown, T> {
   const keys = Object.keys(validators);
 
   return new Validator(async input => {
@@ -39,4 +39,4 @@ export const schema = <T>(validators: Schema<T>): Validator<unknown, T> => {
       return Validator.resolve(values);
     }
   });
-};
+}

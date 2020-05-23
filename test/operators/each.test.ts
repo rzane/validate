@@ -1,4 +1,4 @@
-import { each, assert, isNumber, map } from "../src";
+import { each, assert, isNumber, map } from "../../src";
 
 describe("each", () => {
   const validator = each(assert(isNumber).then(map(v => v * 2)));

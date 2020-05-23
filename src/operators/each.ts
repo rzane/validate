@@ -1,9 +1,9 @@
-import { Validator, putPath } from "./Validator";
-import { Problem } from "./types";
+import { Validator, putPath } from "../Validator";
+import { Problem } from "../types";
 
-export const each = <T>(
+export function each<T>(
   validator: Validator<unknown, T>
-): Validator<unknown, T[]> => {
+): Validator<unknown, T[]> {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
       return Validator.reject("Expected an array");
@@ -30,4 +30,4 @@ export const each = <T>(
       return Validator.resolve(values);
     }
   });
-};
+}

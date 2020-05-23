@@ -1,4 +1,4 @@
-import { optional, map, Validator } from "./../../src";
+import { optional, map, Validator } from "../../src";
 
 describe("optional", () => {
   const validator = optional<number, number>(map(v => v * 2));
