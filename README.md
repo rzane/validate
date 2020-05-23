@@ -16,6 +16,8 @@ A functional schema validation library.
 - **Composable** - I want to validate my data with tiny, single-purpose functions.
 - **Type-safe** - I want my validations to enforce my TypeScript types.
 
+#### Table of Contents
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
