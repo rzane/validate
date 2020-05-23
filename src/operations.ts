@@ -5,7 +5,9 @@ import { Transform, Forbid, Guard, Predicate } from "./types";
 const MESSAGE = "This field is invalid.";
 
 const exclude = <E>(test: Guard<any, E>) => {
-  return <T, R>(validator: Validator<Forbid<T, E>, R>): Validator<T, R | E> => {
+  return <T, R>(
+    validator: Validator<Forbid<T, E>, R>
+  ): Validator<T | E, R | E> => {
     return new Validator(async input => {
       if (test(input)) {
         return Validator.resolve<R | E>(input);
@@ -17,6 +19,11 @@ const exclude = <E>(test: Guard<any, E>) => {
 };
 
 /**
+ * Ignore null or undefined values when validating
+ */
+export const maybe = exclude(isNil);
+
+/**
  * Ignore undefined values when validating.
  */
 export const optional = exclude(isUndefined);
@@ -25,11 +32,6 @@ export const optional = exclude(isUndefined);
  * Ignore null values when validating.
  */
 export const nullable = exclude(isNull);
-
-/**
- * Ignore null or undefined values when validating
- */
-export const maybe = exclude(isNil);
 
 /**
  * Transform the input value to a new value.

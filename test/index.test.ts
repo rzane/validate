@@ -31,7 +31,6 @@ test("predicates", () => {
     "isNumber",
     "isObject",
     "isString",
-    "isUndefined",
-    "not"
+    "isUndefined"
   ]);
 });
