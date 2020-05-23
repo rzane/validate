@@ -13,7 +13,7 @@ export const schema = <T>(validators: Schema<T>): Validator<unknown, T> => {
 
   return new Validator(async input => {
     if (!isObject(input)) {
-      return Validator.reject("is not an object");
+      return Validator.reject("Expected an object");
     }
 
     const values: any = {};

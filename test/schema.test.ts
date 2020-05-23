@@ -11,6 +11,13 @@ describe("schema", () => {
     age: optional(assert(isNumber, "Must be a number").then(assertAge(21)))
   });
 
+  it("produces an error when given a non-object", async () => {
+    expect(await user.validate(1)).toEqual({
+      valid: false,
+      errors: [{ message: "Expected an object", path: [] }]
+    });
+  });
+
   it("produces errors when invalid", async () => {
     expect(await user.validate({ name: null, age: 20 })).toEqual({
       valid: false,
