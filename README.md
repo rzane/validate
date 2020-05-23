@@ -119,7 +119,7 @@ Runs the given validator unless the value is either `null` or `undefined`.
 maybe(assert(isString));
 ```
 
-### `when(predicate, validator)`
+#### `when(predicate, validator)`
 
 Runs the given validator when the predicate is truthy.
 
