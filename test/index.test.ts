@@ -18,6 +18,7 @@ test("index", () => {
     "nullable",
     "optional",
     "refute",
-    "schema"
+    "schema",
+    "when"
   ]);
 });
