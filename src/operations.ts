@@ -2,7 +2,7 @@ import { Validator } from "./Validator";
 import { isUndefined, isNull, isNil } from "./predicates";
 import { Transform, Forbid, Guard, Predicate } from "./types";
 
-const MESSAGE = "This field is invalid.";
+const MESSAGE = "This field is invalid";
 
 const exclude = <E>(test: Guard<any, E>) => {
   return <T, R>(

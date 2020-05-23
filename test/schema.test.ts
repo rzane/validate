@@ -6,20 +6,20 @@ const assertAge = (n: number) => {
 };
 
 describe("schema", () => {
-  const user = schema({
+  const validator = schema({
     name: assert(isString, "Must be a string"),
     age: optional(assert(isNumber, "Must be a number").then(assertAge(21)))
   });
 
   it("produces an error when given a non-object", async () => {
-    expect(await user.validate(1)).toEqual({
+    expect(await validator.validate(1)).toEqual({
       valid: false,
       errors: [{ message: "Expected an object", path: [] }]
     });
   });
 
   it("produces errors when invalid", async () => {
-    expect(await user.validate({ name: null, age: 20 })).toEqual({
+    expect(await validator.validate({ name: null, age: 20 })).toEqual({
       valid: false,
       errors: [
         { message: "Must be a string", path: ["name"] },
@@ -31,7 +31,7 @@ describe("schema", () => {
   it("produces no errors when valid", async () => {
     const value = { name: "Rick", age: 30 };
 
-    expect(await user.validate(value)).toEqual({
+    expect(await validator.validate(value)).toEqual({
       valid: true,
       value
     });

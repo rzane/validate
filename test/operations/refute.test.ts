@@ -8,7 +8,7 @@ describe("refute", () => {
   it("produces an error for invalid values", async () => {
     expect(await refute(Boolean).validate(true)).toEqual({
       valid: false,
-      errors: [{ message: "This field is invalid.", path: [] }]
+      errors: [{ message: "This field is invalid", path: [] }]
     });
   });
 

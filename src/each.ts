@@ -3,10 +3,10 @@ import { Problem } from "./types";
 
 export const each = <T>(
   validator: Validator<unknown, T>
-): Validator<unknown[], T[]> => {
+): Validator<unknown, T[]> => {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
-      return Validator.reject("is not an array");
+      return Validator.reject("Expected an array");
     }
 
     const values: T[] = [];
