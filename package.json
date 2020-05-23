@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "prepack": "microbundle"
+    "prepack": "microbundle --tsconfig tsconfig.build.json"
   },
   "files": [
     "lib/**/*"
