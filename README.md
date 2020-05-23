@@ -43,9 +43,8 @@ Install the package from NPM:
 
 ## Operators
 
-An operator is a function that returns a new [`Validator`](#validator).
-
-You can chain together multiple operators with `then`:
+An operator is a function that returns a new [`Validator`](#validator). You can chain
+together multiple operators with `then`:
 
 ```javascript
 assert(isString)

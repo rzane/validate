@@ -6,14 +6,14 @@ export const putPath = (problem: Problem, key: string | number): Problem => ({
   path: [key, ...problem.path]
 });
 
-export class Validator<I, T> {
-  public validate: Validate<I, T>;
+export class Validator<T, R> {
+  public validate: Validate<T, R>;
 
-  public constructor(validate: Validate<I, T>) {
+  public constructor(validate: Validate<T, R>) {
     this.validate = validate;
   }
 
-  public then<R>(next: Validator<T, R>): Validator<I, R> {
+  public then<U>(next: Validator<R, U>): Validator<T, U> {
     return new Validator(async input => {
       const result = await this.validate(input);
 
