@@ -1,11 +1,19 @@
 {
   "name": "@stackup/validate",
   "version": "0.1.0",
+  "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/validate.esm.js",
   "typings": "dist/index.d.ts",
-  "author": "Ray Zane",
-  "license": "MIT",
+  "description": "Functional, tree-shakeable, schema validation",
+  "homepage": "https://github.com/rzane/validate#readme",
+  "bugs": {
+    "url": "https://github.com/rzane/validate/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rzane/validate.git"
+  },
   "engines": {
     "node": ">=10"
   },
