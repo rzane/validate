@@ -1,4 +1,4 @@
-import { when, map, isNumber, Validator } from "../src";
+import { when, map, isNumber, Validator } from "../../src";
 
 describe("when", () => {
   const validator = when(
