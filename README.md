@@ -22,11 +22,11 @@ A functional schema validation library.
 import { schema, assert, isString, isNumber } from "@stackup/validate";
 
 const isBlank = value => value.trim() === "";
-const isGte = min => value => value >= min;
+const gte = min => value => value >= min;
 
 const userSchema = schema({
   name: assert(isString).then(refute(isBlank, "Can't be blank")),
-  age: assert(isNumber).then(assert(isGte(18), "Must be 18 or older to join"))
+  age: assert(isNumber).then(assert(gte(18), "Must be 18 or older"))
 });
 
 const result = await userSchema.validate(data);
