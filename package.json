@@ -26,13 +26,15 @@
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint src test",
-    "prepare": "tsdx build"
+    "prepare": "tsdx build",
+    "docs": "doctoc README.md"
   },
   "prettier": {
     "arrowParens": "avoid",
     "trailingComma": "none"
   },
   "devDependencies": {
+    "doctoc": "^1.4.0",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.3"

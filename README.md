@@ -16,6 +16,39 @@ A functional schema validation library.
 - **Composable** - I want to validate my data with tiny, single-purpose functions.
 - **Type-safe** - I want my validations to enforce my TypeScript types.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example](#example)
+- [Installation](#installation)
+- [Operators](#operators)
+    - [`schema(shape)`](#schemashape)
+    - [`assert(predicate, message?)`](#assertpredicate-message)
+    - [`refute(predicate, message?)`](#refutepredicate-message)
+    - [`map(transform)`](#maptransform)
+    - [`optional(validator)`](#optionalvalidator)
+    - [`nullable(validator)`](#nullablevalidator)
+    - [`maybe(validator)`](#maybevalidator)
+    - [`when(predicate, validator)`](#whenpredicate-validator)
+    - [`each(validator)`](#eachvalidator)
+  - [`defaultTo(value)`](#defaulttovalue)
+- [Validator](#validator)
+    - [`validate(input)`](#validateinput)
+    - [`then(validator)`](#thenvalidator)
+- [Predicates](#predicates)
+    - [`isString(value)`](#isstringvalue)
+    - [`isNumber(value)`](#isnumbervalue)
+    - [`isObject(value)`](#isobjectvalue)
+    - [`isBoolean(value)`](#isbooleanvalue)
+    - [`isUndefined(value)`](#isundefinedvalue)
+    - [`isNull(value)`](#isnullvalue)
+    - [`isNil(value)`](#isnilvalue)
+    - [`isBlank(value)`](#isblankvalue)
+- [TypeScript](#typescript)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Example
 
 ```javascript
@@ -158,33 +191,31 @@ const blankValidator = new Validator(input => {
 });
 ```
 
-A validator has two methods:
+#### `validate(input)`
 
-- **`validate(input)`** - Runs the validator against user input.
-- **`then(validator)`** - Adds another validator to the chain.
+Runs the validator against user input. This function returns a Promise.
+
+```javascript
+const result = await validator.validate(data);
+
+if (result.valid) {
+  console.log(result.value);
+} else {
+  console.log(result.errors);
+}
+```
+
+#### `then(validator)`
+
+Adds another validator to the current validation chain. This method returns an entirely new validator.
+
+```javascript
+validator.then(refute(isBlank));
+```
 
 ## Predicates
 
-A predicate is a function that takes a value and returns true or false. Predicate
-functions can be passed to `assert` and `refute`.
-
-- **`isString(value)`** - Checks if the value is a string
-- **`isNumber(value)`** - Checks if the value is a number
-- **`isObject(value)`** - Checks if the value is an object
-- **`isBoolean(value)`** - Checks if the value is boolean
-- **`isUndefined(value)`** - Checks if the value is `undefined`
-- **`isNull(value)`** - Checks if the value is `null`
-- **`isNil(value)`** - Checks if the value is `null` or `undefined`
-- **`isBlank(value)`** - Checks if a string is blank.
-
-This library only includes the most essential predicate functions, because you can find thousands of predicate functions in the NPM ecosystem. Here are a few examples:
-
-- [`lodash`](https://lodash.com/)
-- [`ramda`](https://ramdajs.com/)
-- [`is-email`](https://github.com/segmentio/is-email)
-- [`is-url`](https://github.com/segmentio/is-url)
-
-You can also write your own predicates:
+A predicate is a function that takes a value and returns true or false.
 
 ```javascript
 const isBlank = value => {
@@ -192,11 +223,51 @@ const isBlank = value => {
 };
 ```
 
+This library only includes the most essential predicate functions, because you
+can find thousands of predicate functions in the NPM ecosystem. Here are a few examples:
+
+- [`lodash`](https://lodash.com/)
+- [`ramda`](https://ramdajs.com/)
+- [`is-email`](https://github.com/segmentio/is-email)
+- [`is-url`](https://github.com/segmentio/is-url)
+
+#### `isString(value)`
+
+Checks if the value is a string.
+
+#### `isNumber(value)`
+
+Checks if the value is a number.
+
+#### `isObject(value)`
+
+Checks if the value is an object.
+
+#### `isBoolean(value)`
+
+Checks if the value is boolean.
+
+#### `isUndefined(value)`
+
+Checks if the value is `undefined`.
+
+#### `isNull(value)`
+
+Checks if the value is `null`.
+
+#### `isNil(value)`
+
+Checks if the value is `null` or `undefined`.
+
+#### `isBlank(value)`
+
+Checks if a string is blank.
+
 ## TypeScript
 
 This library assumes that all input is `unknown` by default. You'll need to manually check the value with a [type guard](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types).
 
-For example:
+Here's an example:
 
 ```typescript
 interface Values {
