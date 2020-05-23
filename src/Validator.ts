@@ -6,6 +6,8 @@ export const putPath = (problem: Problem, key: string | number): Problem => ({
   path: [key, ...problem.path]
 });
 
+export type InferType<V> = V extends Validator<any, infer S> ? S : never;
+
 export class Validator<T, R> {
   public validate: Validate<T, R>;
 

@@ -1,6 +1,6 @@
 export * from "./types";
 export * from "./predicates";
-export { Validator } from "./Validator";
+export { Validator, InferType } from "./Validator";
 export { each } from "./operators/each";
 export { map } from "./operators/map";
 export { schema, Schema } from "./operators/schema";

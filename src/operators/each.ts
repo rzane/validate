@@ -1,15 +1,13 @@
 import { Validator, putPath } from "../Validator";
 import { Problem } from "../types";
 
-export function each<T>(
-  validator: Validator<unknown, T>
-): Validator<unknown, T[]> {
+export function each<T, R>(validator: Validator<T, R>): Validator<T, R[]> {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
       return Validator.reject("Expected an array");
     }
 
-    const values: T[] = [];
+    const values: R[] = [];
     const errors: Problem[] = [];
 
     const promises = input.map(async (value, i) => {

@@ -46,6 +46,9 @@ A functional schema validation library.
     - [`isNil(value)`](#isnilvalue)
     - [`isBlank(value)`](#isblankvalue)
 - [TypeScript](#typescript)
+    - [Type Narrowing](#type-narrowing)
+    - [Enforce an existing type with a Validator](#enforce-an-existing-type-with-a-validator)
+    - [Extract type information from a Validator](#extract-type-information-from-a-validator)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -265,30 +268,61 @@ Checks if a string is blank.
 
 ## TypeScript
 
-This library assumes that all input is `unknown` by default. You'll need to manually check the value with a [type guard](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types).
+#### Type Narrowing
 
-Here's an example:
+This library assumes that all input is `unknown` by default. That means, you'll need
+to narrow types before calling certain functions.
+
+Here's an example that would cause a compile-time error:
 
 ```typescript
-interface Values {
-  a: number;
-  b: number;
-}
-
-schema<Values>({
-  // This works:
-  a: assert(isNumber).then(assert(Number.isInteger)),
-
-  // This will error:
-  //   'unknown' is not assignable to type 'number'
-  b: assert(Number.isInteger)
+schema({
+  // Error: 'unknown' is not assignable to type 'string'
+  name: refute(isBlank)
 });
 ```
 
-Here's an example of a custom type guard:
+This is by design. To address this, you'll need to narrow types by passing a type guard to `assert`:
+
+```typescript
+schema({
+  name: assert(isString).then(refute(isBlank))
+});
+```
+
+This library includes a few type guards out of the box, but you can also write your own:
 
 ```typescript
 const isStringOrNumber = (value: unknown): value is string | number => {
   return typeof value === "string" || typeof value === "number";
 };
+```
+
+#### Enforce an existing type with a Validator
+
+You can ensure that your validators enforce your types.
+
+```typescript
+interface User {
+  name: string;
+}
+
+// Error: Property 'name' is missing in type '{}'
+schema<unknown, User>({});
+
+// Error: 'number' is not assignable to type 'string'
+schema<unknown, User>({ name: assert(isNumber) });
+```
+
+#### Extract type information from a Validator
+
+You can also generate new types from validators that you've defined:
+
+```typescript
+const userSchema = schema({
+  name: assert(isString),
+  age: assert(isNumber);
+});
+
+type User = InferType<typeof userSchema>;
 ```

@@ -8,7 +8,7 @@ export type Schema<T> = {
   [key: string]: Validator<unknown, unknown>;
 };
 
-export function schema<T>(validators: Schema<T>): Validator<unknown, T> {
+export function schema<T, R>(validators: Schema<R>): Validator<T, R> {
   const keys = Object.keys(validators);
 
   return new Validator(async input => {
