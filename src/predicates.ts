@@ -25,3 +25,7 @@ export const isNull = (value: unknown): value is null => {
 export const isNil = (value: unknown): value is null | undefined => {
   return isNull(value) || isUndefined(value);
 };
+
+export const isBlank = (value: string) => {
+  return value.trim() === "";
+};

@@ -5,6 +5,7 @@ test("index", () => {
     "Validator",
     "assert",
     "each",
+    "isBlank",
     "isBoolean",
     "isNil",
     "isNull",

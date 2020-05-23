@@ -5,7 +5,8 @@ import {
   isNumber,
   isObject,
   isString,
-  isUndefined
+  isUndefined,
+  isBlank
 } from "../src";
 
 test("isString", () => {
@@ -39,4 +40,11 @@ test("isNull", () => {
 test("isNil", () => {
   expect(isNil(null)).toEqual(true);
   expect(isNil(undefined)).toEqual(true);
+});
+
+test("isBlank", () => {
+  expect(isBlank("")).toEqual(true);
+  expect(isBlank(" ")).toEqual(true);
+  expect(isBlank(" \n")).toEqual(true);
+  expect(isBlank(" a ")).toEqual(false);
 });
