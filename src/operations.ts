@@ -55,8 +55,8 @@ export function assert<T>(
 ): Validator<T, T>;
 export function assert(
   fn: Predicate<any>,
-  message = MESSAGE,
-  path = []
+  message: string = MESSAGE,
+  path: Path = []
 ): Validator<any, any> {
   return new Validator(async value => {
     if (await fn(value)) {
