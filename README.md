@@ -3,6 +3,7 @@
 <div align="center">
 
 ![Build](https://github.com/rzane/validate/workflows/Build/badge.svg)
+![Size](https://img.shields.io/bundlephobia/minzip/@stackup/validate)
 ![Version](https://img.shields.io/npm/v/@stackup/validate)
 ![License](https://img.shields.io/npm/l/@stackup/validate)
 
