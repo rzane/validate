@@ -9,21 +9,33 @@
 
 </div>
 
-A set of functional, tree-shakeable, data validation utilities built with bundle size in mind.
+A functional schema validation library.
 
-This library offers strict TypeScript types, so you can ensure that your validations will enforce your types.
+- **Lightweight** - My data validation library shouldn't be bigger than React.
+- **Tree-shakeable** - I don't want to take a hit for functionality that I'm not using.
+- **Composable** - I want to validate my data with tiny, single-purpose functions.
+- **Type-safe** - I want my validations to enforce my TypeScript types.
+
+## Example
 
 ```javascript
 import { schema, assert, isString, isNumber } from "@stackup/validate";
 
-const UserSchema = schema({
-  name: assert(isString).then(
-    refute(name => name.trim() !== "", "Can't be blank")
-  ),
-  age: assert(isNumber).then(
-    assert(age => age >= 18, "Must be 18 or older to join)
-  ),
+const isBlank = value => value.trim() === "";
+const isGte = min => value => value >= min;
+
+const userSchema = schema({
+  name: assert(isString).then(refute(isBlank, "Can't be blank")),
+  age: assert(isNumber).then(assert(isGte(18), "Must be 18 or older to join"))
 });
+
+const result = await userSchema.validate(data);
+
+if (result.valid) {
+  console.log(result.value);
+} else {
+  console.log(result.errors);
+}
 ```
 
 ## Installation
