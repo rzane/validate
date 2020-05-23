@@ -14,10 +14,6 @@ export const isObject = (value: unknown): value is object => {
   return value !== null && typeof value === "object";
 };
 
-export const isArray = (value: unknown): value is unknown[] => {
-  return Array.isArray(value);
-};
-
 export const isUndefined = (value: unknown): value is undefined => {
   return typeof value === "undefined";
 };
@@ -29,15 +25,3 @@ export const isNull = (value: unknown): value is null => {
 export const isNil = (value: unknown): value is null | undefined => {
   return isNull(value) || isUndefined(value);
 };
-
-export const isBlank = (value: string): boolean => {
-  return value.trim() === "";
-};
-
-export const isInteger = Number.isInteger;
-export const isNaN = Number.isNaN;
-
-export const isGt = (n: number) => (v: number) => v > n;
-export const isGte = (n: number) => (v: number) => v >= n;
-export const isLt = (n: number) => (v: number) => v < n;
-export const isLte = (n: number) => (v: number) => v <= n;
