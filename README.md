@@ -26,8 +26,8 @@ A functional schema validation library.
 - [Installation](#installation)
 - [Operators](#operators)
     - [`schema(shape)`](#schemashape)
-    - [`assert(predicate, message?)`](#assertpredicate-message)
-    - [`refute(predicate, message?)`](#refutepredicate-message)
+    - [`assert(predicate, message?, path?)`](#assertpredicate-message-path)
+    - [`refute(predicate, message?, path?)`](#refutepredicate-message-path)
     - [`map(transform)`](#maptransform)
     - [`optional(validator)`](#optionalvalidator)
     - [`nullable(validator)`](#nullablevalidator)
@@ -109,7 +109,7 @@ schema({
 });
 ```
 
-#### `assert(predicate, message?)`
+#### `assert(predicate, message?, path?)`
 
 Produces an error if a condition is not met.
 
@@ -117,7 +117,7 @@ Produces an error if a condition is not met.
 assert(isString, "must be a string");
 ```
 
-#### `refute(predicate, message?)`
+#### `refute(predicate, message?, path?)`
 
 Produces an error if a condition is met.
 
