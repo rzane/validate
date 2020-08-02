@@ -6,14 +6,9 @@
   "module": "dist/validate.esm.js",
   "typings": "dist/index.d.ts",
   "description": "Functional, tree-shakeable, schema validation",
+  "repository": "github:rzane/validate",
   "homepage": "https://github.com/rzane/validate#readme",
-  "bugs": {
-    "url": "https://github.com/rzane/validate/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rzane/validate.git"
-  },
+  "bugs": "https://github.com/rzane/validate/issues",
   "engines": {
     "node": ">=10"
   },
