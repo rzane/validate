@@ -27,6 +27,30 @@ export class Validator<T, R> {
     });
   }
 
+  public and(next: Validator<T, R>): Validator<T, R> {
+    return new Validator(async input => {
+      const [a, b] = await Promise.all([
+        this.validate(input),
+        next.validate(input)
+      ]);
+
+      if (b.valid && b.value !== (input as any)) {
+        throw new Error(
+          "The validator given to `and` should not transform the value."
+        );
+      }
+
+      if (a.valid && b.valid) {
+        return a;
+      }
+
+      const errors = [];
+      if (!a.valid) errors.push(...a.errors);
+      if (!b.valid) errors.push(...b.errors);
+      return { valid: false, errors };
+    });
+  }
+
   public static resolve<T>(value: T): Valid<T> {
     return { valid: true, value };
   }
