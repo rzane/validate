@@ -2,13 +2,13 @@ import { Validator, putPath } from "../Validator";
 import { Problem } from "../types";
 import { isObject } from "../predicates";
 
-export type Schema<T> = {
-  [K in keyof T]: Validator<unknown, T[K]>;
-} & {
-  [key: string]: Validator<unknown, unknown>;
+type AnySchema = Record<string, Validator<any, any>>;
+
+export type Schema<T, R> = {
+  [K in keyof R]: Validator<T extends Record<K, any> ? T[K] : unknown, R[K]>;
 };
 
-export function schema<T, R>(validators: Schema<R>): Validator<T, R> {
+export function schema<T, R>(validators: Schema<T, R>): Validator<T, R> {
   const keys = Object.keys(validators);
 
   return new Validator(async input => {
@@ -21,7 +21,7 @@ export function schema<T, R>(validators: Schema<R>): Validator<T, R> {
 
     const promises = keys.map(async key => {
       const value = (input as any)[key];
-      const validator = validators[key];
+      const validator = (validators as AnySchema)[key];
       const result = await validator.validate(value);
 
       if (result.valid) {
