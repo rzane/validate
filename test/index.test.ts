@@ -2,6 +2,7 @@ import * as index from "../src";
 
 test("index", () => {
   expect(Object.keys(index).sort()).toEqual([
+    "SchemaValidator",
     "Validator",
     "assert",
     "defaultTo",

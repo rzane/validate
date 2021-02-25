@@ -38,6 +38,8 @@ A functional schema validation library.
 - [Validator](#validator)
     - [`validate(input)`](#validateinput)
     - [`then(validator)`](#thenvalidator)
+- [SchemaValidator](#schemavalidator)
+    - [`extend(shape)`](#extendshape)
 - [Predicates](#predicates)
     - [`isString(value)`](#isstringvalue)
     - [`isNumber(value)`](#isnumbervalue)
@@ -216,6 +218,22 @@ Adds another validator to the current validation chain. This method returns an e
 
 ```javascript
 validator.then(refute(isBlank));
+```
+
+## SchemaValidator
+
+#### `extend(shape)`
+
+Add or overwrite the fields that a schema validates.
+
+```javascript
+const user = schema({
+  name: assert(isString)
+});
+
+const admin = user.extend({
+  role: assert(role => role === "admin")
+});
 ```
 
 ## Predicates

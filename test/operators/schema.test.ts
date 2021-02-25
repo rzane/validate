@@ -36,4 +36,30 @@ describe("schema", () => {
       value
     });
   });
+
+  it("can be extended", async () => {
+    const subject = validator.extend({
+      foo: assert(isNumber)
+    });
+
+    const value = { name: "Rick", foo: 10 };
+    let result = await subject.validate(value);
+    expect(result).toEqual({ valid: true, value });
+
+    result = await subject.validate({ name: "Rick" });
+    expect(result.valid).toBe(false);
+  });
+
+  it("can be overridden", async () => {
+    const subject = validator.extend({
+      name: assert(isNumber)
+    });
+
+    const value = { name: 1 };
+    let result = await subject.validate(value);
+    expect(result).toEqual({ valid: true, value });
+
+    result = await subject.validate({ name: "Rick" });
+    expect(result.valid).toBe(false);
+  });
 });
