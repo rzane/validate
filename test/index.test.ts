@@ -19,6 +19,7 @@ test("index", () => {
     "maybe",
     "nullable",
     "optional",
+    "pass",
     "refute",
     "schema",
     "when"

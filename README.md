@@ -21,38 +21,37 @@ A functional schema validation library.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Example](#example)
 - [Installation](#installation)
 - [Operators](#operators)
-    - [`schema(shape)`](#schemashape)
-    - [`assert(predicate, message?, path?)`](#assertpredicate-message-path)
-    - [`refute(predicate, message?, path?)`](#refutepredicate-message-path)
-    - [`map(transform)`](#maptransform)
-    - [`optional(validator)`](#optionalvalidator)
-    - [`nullable(validator)`](#nullablevalidator)
-    - [`maybe(validator)`](#maybevalidator)
-    - [`when(predicate, validator)`](#whenpredicate-validator)
-    - [`each(validator)`](#eachvalidator)
+  - [`schema(shape)`](#schemashape)
+  - [`assert(predicate, message?, path?)`](#assertpredicate-message-path)
+  - [`refute(predicate, message?, path?)`](#refutepredicate-message-path)
+  - [`map(transform)`](#maptransform)
+  - [`optional(validator)`](#optionalvalidator)
+  - [`nullable(validator)`](#nullablevalidator)
+  - [`maybe(validator)`](#maybevalidator)
+  - [`when(predicate, validator)`](#whenpredicate-validator)
+  - [`each(validator)`](#eachvalidator)
   - [`defaultTo(value)`](#defaulttovalue)
 - [Validator](#validator)
-    - [`validate(input)`](#validateinput)
-    - [`then(validator)`](#thenvalidator)
+  - [`validate(input)`](#validateinput)
+  - [`then(validator)`](#thenvalidator)
 - [SchemaValidator](#schemavalidator)
-    - [`extend(shape)`](#extendshape)
+  - [`extend(shape)`](#extendshape)
 - [Predicates](#predicates)
-    - [`isString(value)`](#isstringvalue)
-    - [`isNumber(value)`](#isnumbervalue)
-    - [`isObject(value)`](#isobjectvalue)
-    - [`isBoolean(value)`](#isbooleanvalue)
-    - [`isUndefined(value)`](#isundefinedvalue)
-    - [`isNull(value)`](#isnullvalue)
-    - [`isNil(value)`](#isnilvalue)
-    - [`isBlank(value)`](#isblankvalue)
+  - [`isString(value)`](#isstringvalue)
+  - [`isNumber(value)`](#isnumbervalue)
+  - [`isObject(value)`](#isobjectvalue)
+  - [`isBoolean(value)`](#isbooleanvalue)
+  - [`isUndefined(value)`](#isundefinedvalue)
+  - [`isNull(value)`](#isnullvalue)
+  - [`isNil(value)`](#isnilvalue)
+  - [`isBlank(value)`](#isblankvalue)
 - [TypeScript](#typescript)
-    - [Type Narrowing](#type-narrowing)
-    - [Enforce an existing type with a Validator](#enforce-an-existing-type-with-a-validator)
-    - [Extract type information from a Validator](#extract-type-information-from-a-validator)
+  - [Type Narrowing](#type-narrowing)
+  - [Enforce an existing type with a Validator](#enforce-an-existing-type-with-a-validator)
+  - [Extract type information from a Validator](#extract-type-information-from-a-validator)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -175,12 +174,23 @@ Runs the given validator against each item in an array.
 each(assert(isString));
 ```
 
-### `defaultTo(value)`
+#### `defaultTo(value)`
 
 Provide a default value to replace `null` or `undefined` values.
 
 ```javascript
 defaultTo(0);
+```
+
+#### `pass()`
+
+Skip validation for this field.
+
+```javascript
+schema({
+  name: pass(),
+  age: pass()
+});
 ```
 
 ## Validator
