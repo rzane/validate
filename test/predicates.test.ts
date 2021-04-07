@@ -9,7 +9,8 @@ import {
   isBlank,
   oneOf,
   isDate,
-  isMap
+  isMap,
+  isSet
 } from "../src";
 
 test("isString", () => {
@@ -36,6 +37,12 @@ test("isMap", () => {
   expect(isMap(new Map())).toBe(true);
   expect(isMap({})).toBe(false);
   expect(isMap([])).toBe(false);
+});
+
+test("isSet", () => {
+  expect(isSet(new Set())).toBe(true);
+  expect(isSet({})).toBe(false);
+  expect(isSet([])).toBe(false);
 });
 
 test("isDate", () => {

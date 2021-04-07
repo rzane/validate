@@ -15,6 +15,7 @@ test("index", () => {
     "isNull",
     "isNumber",
     "isObject",
+    "isSet",
     "isString",
     "isUndefined",
     "map",

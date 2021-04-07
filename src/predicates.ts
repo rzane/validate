@@ -18,6 +18,10 @@ export const isMap = (value: unknown): value is Map<unknown, unknown> => {
   return value instanceof Map;
 };
 
+export const isSet = (value: unknown): value is Set<unknown> => {
+  return value instanceof Set;
+};
+
 export const isDate = (value: unknown): value is Date => {
   return value instanceof Date && !isNaN(value.getTime());
 };
