@@ -14,6 +14,10 @@ export const isObject = (value: unknown): value is Record<string, unknown> => {
   return value !== null && typeof value === "object";
 };
 
+export const isMap = (value: unknown): value is Map<unknown, unknown> => {
+  return value instanceof Map;
+};
+
 export const isDate = (value: unknown): value is Date => {
   return value instanceof Date && !isNaN(value.getTime());
 };

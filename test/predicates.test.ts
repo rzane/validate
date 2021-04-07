@@ -8,7 +8,8 @@ import {
   isUndefined,
   isBlank,
   oneOf,
-  isDate
+  isDate,
+  isMap
 } from "../src";
 
 test("isString", () => {
@@ -29,6 +30,12 @@ test("isObject", () => {
 
   expect(isObject({})).toEqual(true);
   expect(isObject(new Foo())).toEqual(true);
+});
+
+test("isMap", () => {
+  expect(isMap(new Map())).toBe(true);
+  expect(isMap({})).toBe(false);
+  expect(isMap([])).toBe(false);
 });
 
 test("isDate", () => {

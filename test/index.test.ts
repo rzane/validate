@@ -10,6 +10,7 @@ test("index", () => {
     "isBlank",
     "isBoolean",
     "isDate",
+    "isMap",
     "isNil",
     "isNull",
     "isNumber",
