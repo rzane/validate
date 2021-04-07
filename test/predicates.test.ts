@@ -6,7 +6,8 @@ import {
   isObject,
   isString,
   isUndefined,
-  isBlank
+  isBlank,
+  oneOf
 } from "../src";
 
 test("isString", () => {
@@ -47,4 +48,42 @@ test("isBlank", () => {
   expect(isBlank(" ")).toEqual(true);
   expect(isBlank(" \n")).toEqual(true);
   expect(isBlank(" a ")).toEqual(false);
+});
+
+describe("oneOf", () => {
+  test("array", () => {
+    const fn = oneOf([1, 2]);
+    expect(fn(1)).toBe(true);
+    expect(fn(2)).toBe(true);
+    expect(fn(3)).toBe(false);
+  });
+
+  test("object", () => {
+    const fn = oneOf({ a: 1, b: 2 });
+    expect(fn(1)).toBe(true);
+    expect(fn(2)).toBe(true);
+    expect(fn(3)).toBe(false);
+  });
+
+  test("enum", () => {
+    enum Values {
+      A
+    }
+
+    const fn = oneOf(Values);
+    expect(fn(Values.A)).toBe(true);
+    expect(fn(0)).toBe(true);
+    expect(fn("Other")).toBe(false);
+  });
+
+  test("string enum", () => {
+    enum Values {
+      A = "A"
+    }
+
+    const fn = oneOf(Values);
+    expect(fn(Values.A)).toBe(true);
+    expect(fn("A")).toBe(true);
+    expect(fn("Other")).toBe(false);
+  });
 });

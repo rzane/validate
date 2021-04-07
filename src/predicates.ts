@@ -29,3 +29,11 @@ export const isNil = (value: unknown): value is null | undefined => {
 export const isBlank = (value: string) => {
   return value.trim() === "";
 };
+
+export function oneOf<T>(values: T[] | Record<string | number, T>) {
+  const allowed = Object.values(values);
+
+  return (value: unknown): value is T => {
+    return allowed.includes(value as any);
+  };
+}

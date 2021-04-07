@@ -18,6 +18,7 @@ test("index", () => {
     "map",
     "maybe",
     "nullable",
+    "oneOf",
     "optional",
     "pass",
     "refute",
