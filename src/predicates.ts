@@ -10,7 +10,7 @@ export const isBoolean = (value: unknown): value is boolean => {
   return typeof value === "boolean";
 };
 
-export const isObject = (value: unknown): value is object => {
+export const isObject = (value: unknown): value is Record<string, unknown> => {
   return value !== null && typeof value === "object";
 };
 
