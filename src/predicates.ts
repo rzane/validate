@@ -14,6 +14,10 @@ export const isObject = (value: unknown): value is object => {
   return value !== null && typeof value === "object";
 };
 
+export const isDate = (value: unknown): value is Date => {
+  return value instanceof Date && !isNaN(value.getTime());
+};
+
 export const isUndefined = (value: unknown): value is undefined => {
   return typeof value === "undefined";
 };

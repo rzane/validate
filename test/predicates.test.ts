@@ -7,7 +7,8 @@ import {
   isString,
   isUndefined,
   isBlank,
-  oneOf
+  oneOf,
+  isDate
 } from "../src";
 
 test("isString", () => {
@@ -28,6 +29,15 @@ test("isObject", () => {
 
   expect(isObject({})).toEqual(true);
   expect(isObject(new Foo())).toEqual(true);
+});
+
+test("isDate", () => {
+  expect(isDate(new Date())).toBe(true);
+  expect(isDate(undefined)).toBe(false);
+  expect(isDate(null)).toBe(false);
+  expect(isDate(100)).toBe(false);
+  expect(isDate("crap")).toBe(false);
+  expect(isDate(new Date("2021-04-39"))).toBe(false);
 });
 
 test("isUndefined", () => {

@@ -9,6 +9,7 @@ test("index", () => {
     "each",
     "isBlank",
     "isBoolean",
+    "isDate",
     "isNil",
     "isNull",
     "isNumber",
