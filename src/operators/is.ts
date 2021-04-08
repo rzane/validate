@@ -3,9 +3,12 @@ import { Guard, Path } from "../types";
 import { Validator } from "../Validator";
 import {
   isBoolean,
+  isDate,
+  isMap,
   isNull,
   isNumber,
   isObject,
+  isSet,
   isString,
   isUndefined
 } from "../predicates";
@@ -14,10 +17,13 @@ const PREDICATES = {
   string: isString,
   number: isNumber,
   boolean: isBoolean,
+  date: isDate,
   object: isObject,
   array: Array.isArray,
   null: isNull,
-  undefined: isUndefined
+  undefined: isUndefined,
+  map: isMap,
+  set: isSet
 };
 
 type Predicates = typeof PREDICATES;
