@@ -1,5 +1,5 @@
-import { Problem } from "../types";
-import { putPath, Validator } from "../Validator";
+import { Validator } from "../Validator";
+import { run } from "./run";
 
 type Validators = Array<Validator<any, any>>;
 
@@ -11,9 +11,9 @@ type Output<S extends Validators> = {
   [K in keyof S]: S[K] extends Validator<any, infer R> ? R : never;
 };
 
-type Result<S extends Validators> = Validator<Input<S>, Output<S>>;
-
-export function tupleOf<S extends Validators>(...validators: S): Result<S> {
+export function tupleOf<S extends Validators>(
+  ...validators: S
+): Validator<Input<S>, Output<S>> {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
       throw new Error("Expected input to be a tuple");
@@ -25,26 +25,11 @@ export function tupleOf<S extends Validators>(...validators: S): Result<S> {
       );
     }
 
-    const values: any = [];
-    const errors: Problem[] = [];
-
-    const promises = input.map(async (value, i) => {
-      const validator = validators[i];
-      const result = await validator.validate(value);
-
-      if (result.valid) {
-        values[i] = result.value;
-      } else {
-        errors.push(...result.errors.map(e => putPath(e, i)));
-      }
-    });
-
-    await Promise.all(promises);
-
-    if (errors.length) {
-      return Validator.reject(errors);
-    } else {
-      return Validator.resolve(values);
-    }
+    return run<Input<S>, Output<S>, any>(
+      input,
+      (value, i) => validators[i].validate(value),
+      (_value, i) => i,
+      values => values
+    );
   });
 }
