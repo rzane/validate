@@ -1,7 +1,7 @@
 import { putPath, Validator } from "../Validator";
 import { Problem, Result } from "../types";
 
-export async function run<T, R, O>(
+export async function validateEach<T, R, O>(
   entries: Iterable<T> | ArrayLike<T>,
   validate: (entry: T, index: number) => Promise<Result<R>>,
   getKey: (entry: T, index: number) => string | number,

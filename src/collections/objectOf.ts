@@ -1,7 +1,7 @@
 import { map } from "../operators/map";
 import { isObject } from "../predicates";
 import { Validator } from "../Validator";
-import { run } from "./run";
+import { validateEach } from "./validateEach";
 
 export function objectOf<T extends Record<string, unknown>, R>(
   validator: Validator<T, R>
@@ -11,7 +11,7 @@ export function objectOf<T extends Record<string, unknown>, R>(
       return Validator.reject("Must be an object");
     }
 
-    return run(
+    return validateEach(
       Object.entries(input),
       ([key, value]) => validator.then(map(v => [key, v])).validate(value as T),
       ([key]) => key,

@@ -1,5 +1,5 @@
 import { Validator } from "../Validator";
-import { run } from "./run";
+import { validateEach } from "./validateEach";
 
 type Validators = Array<Validator<any, any>>;
 
@@ -25,7 +25,7 @@ export function tupleOf<S extends Validators>(
       );
     }
 
-    return run<Input<S>, Output<S>, any>(
+    return validateEach<Input<S>, Output<S>, any>(
       input,
       (value, i) => validators[i].validate(value),
       (_value, i) => i,

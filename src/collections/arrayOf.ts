@@ -1,5 +1,5 @@
 import { Validator } from "../Validator";
-import { run } from "./run";
+import { validateEach } from "./validateEach";
 
 export function arrayOf<T extends any[], R>(
   validator: Validator<T, R>
@@ -9,7 +9,7 @@ export function arrayOf<T extends any[], R>(
       return Validator.reject("Must be an array");
     }
 
-    return run(
+    return validateEach(
       input,
       value => validator.validate(value),
       (_value, i) => i,

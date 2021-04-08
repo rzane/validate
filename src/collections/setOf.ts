@@ -1,6 +1,6 @@
 import { isSet } from "../predicates";
 import { Validator } from "../Validator";
-import { run } from "./run";
+import { validateEach } from "./validateEach";
 
 export function setOf<T extends Set<any>, R>(
   validator: Validator<T, R>
@@ -10,7 +10,7 @@ export function setOf<T extends Set<any>, R>(
       return Validator.reject("Must be a set");
     }
 
-    return run(
+    return validateEach(
       input,
       value => validator.validate(value),
       (_value, i) => i,

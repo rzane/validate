@@ -1,7 +1,7 @@
-import { run } from "./collections/run";
 import { map } from "./operators/map";
 import { isObject } from "./predicates";
 import { Validator } from "./Validator";
+import { validateEach } from "./collections/validateEach";
 
 type Merge<Old, New> = Omit<Old, keyof New> & New;
 
@@ -14,7 +14,7 @@ async function validate<T, R>(validators: Schema<T, R>, input: T) {
     return Validator.reject("Must be an object");
   }
 
-  return run(
+  return validateEach(
     Object.keys(validators) as Array<keyof R>,
     key => {
       const validator = validators[key].then(map(value => [key, value]));
