@@ -12,7 +12,7 @@ describe("schema", () => {
   });
 
   it("produces an error when given a non-object", async () => {
-    expect(await validator.validate(1)).toEqual({
+    expect(await validator.validate(1 as any)).toEqual({
       valid: false,
       errors: [{ message: "Must be an object", path: [] }]
     });

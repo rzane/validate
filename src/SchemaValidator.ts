@@ -25,7 +25,10 @@ async function validate<T, R>(validators: Schema<T, R>, input: T) {
   );
 }
 
-export class SchemaValidator<T, R> extends Validator<T, R> {
+export class SchemaValidator<
+  T extends Record<string, unknown>,
+  R
+> extends Validator<T, R> {
   private validators: Schema<T, R>;
 
   public constructor(validators: Schema<T, R>) {
@@ -45,6 +48,8 @@ export class SchemaValidator<T, R> extends Validator<T, R> {
   }
 }
 
-export function schema<T, R>(validators: Schema<T, R>): SchemaValidator<T, R> {
+export function schema<T extends Record<string, unknown>, R>(
+  validators: Schema<T, R>
+): SchemaValidator<T, R> {
   return new SchemaValidator(validators);
 }
