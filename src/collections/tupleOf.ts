@@ -16,12 +16,12 @@ export function tupleOf<S extends Validators>(
 ): Validator<Input<S>, Output<S>> {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
-      throw new Error("Expected input to be a tuple");
+      return Validator.reject("Must be a tuple");
     }
 
     if (input.length !== validators.length) {
-      throw new Error(
-        `Expected tuple to contain ${validators.length} elements, got: ${input.length}`
+      return Validator.reject(
+        `Must have ${validators.length} element(s), got: ${input.length}`
       );
     }
 

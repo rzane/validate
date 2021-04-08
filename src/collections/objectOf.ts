@@ -1,3 +1,4 @@
+import { map } from "../operators/map";
 import { isObject } from "../predicates";
 import { Validator } from "../Validator";
 import { run } from "./run";
@@ -7,20 +8,12 @@ export function objectOf<T extends Record<string, unknown>, R>(
 ): Validator<T, Record<string, R>> {
   return new Validator(async (input: T) => {
     if (!isObject(input)) {
-      throw new Error("Expected an object");
+      return Validator.reject("Must be an object");
     }
 
     return run(
       Object.entries(input),
-      async ([key, value]) => {
-        const result = await validator.validate(value as T);
-
-        if (result.valid) {
-          return { valid: true, value: [key, result.value] };
-        } else {
-          return result;
-        }
-      },
+      ([key, value]) => validator.then(map(v => [key, v])).validate(value as T),
       ([key]) => key,
       values => Object.fromEntries(values)
     );

@@ -7,7 +7,7 @@ export function setOf<T extends Set<any>, R>(
 ): Validator<T, Set<R>> {
   return new Validator(async (input: T) => {
     if (!isSet(input)) {
-      throw new Error("Expected a set");
+      return Validator.reject("Must be a set");
     }
 
     return run(
