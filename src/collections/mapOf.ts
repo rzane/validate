@@ -14,7 +14,7 @@ export function mapOf<T extends Map<any, any>, K, V>(
 
   return new Validator(async input => {
     if (!isMap(input)) {
-      throw new Error("Expected a map");
+      return Validator.reject("Must be a map");
     }
 
     return validateEach(

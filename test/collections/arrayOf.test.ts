@@ -1,7 +1,7 @@
-import { each, assert, isNumber, map } from "../../src";
+import { arrayOf, assert, isNumber, map } from "../../src";
 
-describe("each", () => {
-  const validator = each(assert(isNumber).then(map(v => v * 2)));
+describe("arrayOf", () => {
+  const validator = arrayOf(assert(isNumber).then(map(v => v * 2)));
 
   it("produces a value for valid values", async () => {
     expect(await validator.validate([2, 3])).toEqual({
