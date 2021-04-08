@@ -18,9 +18,9 @@ describe("each", () => {
   });
 
   it("produces an error when not given an array", async () => {
-    expect(await validator.validate(1)).toEqual({
+    expect(await validator.validate(1 as any)).toEqual({
       valid: false,
-      errors: [{ message: "Expected an array", path: [] }]
+      errors: [{ message: "Must be an array", path: [] }]
     });
   });
 });
