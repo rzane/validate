@@ -1,8 +1,8 @@
+import { map } from "./operators/map";
 import { isObject } from "./predicates";
-import { Problem } from "./types";
-import { putPath, Validator } from "./Validator";
+import { Validator } from "./Validator";
+import { validateEach } from "./collections/validateEach";
 
-type AnySchema = Record<string, Validator<any, any>>;
 type Merge<Old, New> = Omit<Old, keyof New> & New;
 
 export type Schema<T, R> = {
@@ -11,31 +11,18 @@ export type Schema<T, R> = {
 
 async function validate<T, R>(validators: Schema<T, R>, input: T) {
   if (!isObject(input)) {
-    return Validator.reject("Expected an object");
+    return Validator.reject("Must be an object");
   }
 
-  const values: any = {};
-  const errors: Problem[] = [];
-
-  const promises = Object.keys(validators).map(async key => {
-    const value = (input as any)[key];
-    const validator = (validators as AnySchema)[key];
-    const result = await validator.validate(value);
-
-    if (result.valid) {
-      values[key] = result.value;
-    } else {
-      errors.push(...result.errors.map(problem => putPath(problem, key)));
-    }
-  });
-
-  await Promise.all(promises);
-
-  if (errors.length) {
-    return Validator.reject(errors);
-  } else {
-    return Validator.resolve(values);
-  }
+  return validateEach(
+    Object.keys(validators) as Array<keyof R>,
+    key => {
+      const validator = validators[key].then(map(value => [key, value]));
+      return validator.validate((input as any)[key]);
+    },
+    key => key as string,
+    values => Object.fromEntries(values)
+  );
 }
 
 export class SchemaValidator<T, R> extends Validator<T, R> {
@@ -56,4 +43,8 @@ export class SchemaValidator<T, R> extends Validator<T, R> {
 
     return new SchemaValidator(validators);
   }
+}
+
+export function schema<T, R>(validators: Schema<T, R>): SchemaValidator<T, R> {
+  return new SchemaValidator(validators);
 }

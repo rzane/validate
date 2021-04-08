@@ -4,6 +4,7 @@ test("index", () => {
   expect(Object.keys(index).sort()).toEqual([
     "SchemaValidator",
     "Validator",
+    "arrayOf",
     "assert",
     "defaultTo",
     "each",
@@ -19,13 +20,17 @@ test("index", () => {
     "isString",
     "isUndefined",
     "map",
+    "mapOf",
     "maybe",
     "nullable",
+    "objectOf",
     "oneOf",
     "optional",
     "pass",
     "refute",
     "schema",
+    "setOf",
+    "tupleOf",
     "when"
   ]);
 });

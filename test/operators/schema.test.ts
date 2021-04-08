@@ -14,7 +14,7 @@ describe("schema", () => {
   it("produces an error when given a non-object", async () => {
     expect(await validator.validate(1)).toEqual({
       valid: false,
-      errors: [{ message: "Expected an object", path: [] }]
+      errors: [{ message: "Must be an object", path: [] }]
     });
   });
 
