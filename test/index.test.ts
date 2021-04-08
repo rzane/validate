@@ -26,6 +26,7 @@ test("index", () => {
     "pass",
     "refute",
     "schema",
+    "tupleOf",
     "when"
   ]);
 });

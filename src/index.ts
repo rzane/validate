@@ -13,3 +13,5 @@ export { when } from "./operators/when";
 export { maybe, optional, nullable } from "./operators/maybe";
 export { defaultTo } from "./operators/defaultTo";
 export { pass } from "./operators/pass";
+
+export { tupleOf } from "./collections/tupleOf";
