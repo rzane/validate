@@ -23,4 +23,22 @@ describe("when", () => {
       value: "hello"
     });
   });
+
+  it("accepts an else", async () => {
+    const validator = when(
+      isNumber,
+      map(v => v * 2),
+      map(v => `${v} Bobby`)
+    );
+
+    expect(await validator.validate(1)).toEqual({
+      valid: true,
+      value: 2
+    });
+
+    expect(await validator.validate("Ricky")).toEqual({
+      valid: true,
+      value: "Ricky Bobby"
+    });
+  });
 });
