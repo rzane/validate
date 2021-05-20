@@ -18,6 +18,7 @@ describe("each", () => {
   });
 
   it("produces an error when not given an array", async () => {
+    // @ts-expect-error
     expect(await validator.validate(1)).toEqual({
       valid: false,
       errors: [{ message: "Expected an array", path: [] }]
