@@ -1,7 +1,7 @@
 import { Validator, putPath } from "../Validator";
 import { Problem } from "../types";
 
-export function each<T, R>(validator: Validator<T, R>): Validator<T, R[]> {
+export function each<T, R>(validator: Validator<T, R>): Validator<T[], R[]> {
   return new Validator(async input => {
     if (!Array.isArray(input)) {
       return Validator.reject("Expected an array");
